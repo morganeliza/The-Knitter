@@ -60,7 +60,7 @@ async function createTables() {
       CREATE TABLE post_tags (
         "postId" INTEGER REFERENCES posts(id),
         "tagId" INTEGER REFERENCES tags(id),
-        UNIQUE ("postId", "tagId")
+        CONSTRAINT unique_post_id_and_tag_id UNIQUE ("postId", "tagId")
       );
     `);
 

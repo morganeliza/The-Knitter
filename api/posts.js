@@ -38,14 +38,16 @@ postsRouter.get('/', async (req, res, next) => {
 });
 
 postsRouter.post('/', requireUser, async (req, res, next) => {
-  const { title, content = "" } = req.body;
-
+  const { title, content = "", tags = [] } = req.body;
+console.log(req.user)
+console.log(req.body)
   const postData = {};
 
   try {
     postData.authorId = req.user.id;
     postData.title = title;
     postData.content = content;
+    postData.tags = tags;
 
     const post = await createPost(postData);
 

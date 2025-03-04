@@ -39,7 +39,7 @@ usersRouter.post('/login', async (req, res, next) => {
       const token = jwt.sign({ 
         id: user.id, 
         username
-      }, process.env.JWT_SECRET, {
+      }, "gucci", {
         expiresIn: '1w'
       });
 
@@ -82,7 +82,7 @@ usersRouter.post('/register', async (req, res, next) => {
     const token = jwt.sign({ 
       id: user.id, 
       username
-    }, process.env.JWT_SECRET, {
+    }, "gucci", {
       expiresIn: '1w'
     });
 

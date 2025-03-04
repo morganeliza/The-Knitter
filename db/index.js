@@ -128,9 +128,9 @@ async function createPost({
       VALUES($1, $2, $3)
       RETURNING *;
     `, [authorId, title, content]);
-
+console.log(post)
     const tagList = await createTags(tags);
-
+console.log(tagList)
     return await addTagsToPost(post.id, tagList);
   } catch (error) {
     throw error;
