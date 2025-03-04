@@ -96,15 +96,17 @@ postsRouter.patch("/:postId", requireUser, async (req, res, next) => {
 
 postsRouter.delete("/:postId", requireUser, async (req, res, next) => {
   try {
+    const postId = req.params.postId; console.log(postId)
+    const post = await getPostById(postId);
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }
-    if (req.params.userId !== req.user.id) {
+    if (post.user_id !== req.user.id) {
       const error = Error("not authorized");
       error.status = 401;
       throw error;
     }
-    await deletePost({ id: req.params.postId });
+    await deletePost({ id: postId });
     res.sendStatus(204);
   } catch (ex) {
     next(ex);
