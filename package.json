@@ -5,7 +5,7 @@
   "scripts": {
     "seed:dev": "nodemon ./db/seed.js",
     "seed": "node ./db/seed.js",
-    "start": "node index.js",
+    "start": "npm run seed && node index.js",
     "start:dev": "nodemon index.js",
     "build": "react-scripts build"
   },
