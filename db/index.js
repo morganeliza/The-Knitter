@@ -3,7 +3,7 @@ const { Client } = require("pg"); // imports the pg module
 const client = new Client({
   connectionString:
     process.env.DATABASE_URL ||
-    "postgres://morganmaccarthy:postgres@localhost:5432/juicebox_dev_db",
+    "postgres://morganmaccarthy:postgres@localhost:5432/the_knitter_db",
   ssl:
     process.env.NODE_ENV === "production"
       ? { rejectUnauthorized: false }

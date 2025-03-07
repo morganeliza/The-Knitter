@@ -44,7 +44,7 @@ async function createTables() {
         active boolean DEFAULT true
       );
 
-      CREATE TABLE posts (
+      CREATE TABLE products (
         id SERIAL PRIMARY KEY,
         "authorId" INTEGER REFERENCES users(id),
         title varchar(255) NOT NULL,
@@ -52,12 +52,12 @@ async function createTables() {
         active BOOLEAN DEFAULT true
       );
 
-      CREATE TABLE tags (
+      CREATE TABLE orders (
         id SERIAL PRIMARY KEY,
         name varchar(255) UNIQUE NOT NULL
       );
 
-      CREATE TABLE post_tags (
+      CREATE TABLE users_order (
         "postId" INTEGER REFERENCES posts(id),
         "tagId" INTEGER REFERENCES tags(id),
         CONSTRAINT unique_post_id_and_tag_id UNIQUE ("postId", "tagId")
