@@ -52,6 +52,7 @@ CREATE TABLE products (
   price NUMERIC(10,2) NOT NULL, 
   image_url TEXT NOT NULL,
   description TEXT NOT NULL,
+  color TEXT NOT NULL,
   tags TEXT
 );
 
@@ -120,30 +121,35 @@ async function createInitialProducts() {
 
     console.log("Starting to create products...");
     await createProduct({
-      name: albert.id,
-      price: "First Post",
-      image_url:
-        "This is my first post. I hope I love writing blogs as much as I love writing them.",
-      description: "cotton",
-      tags: ["#happy", "#youcandoanything"],
+      name: "Mailles a Part",
+      price: 40.00,
+      image_url: <img src="images/mailles-a-part.jpg"/>,
+      description: "Hand Dyed. 70% merino superwash, 20% yak, 10% nylon, 437 yds. Dyed in Quebec, Canada.",
+      color: "Rose",
+      tags: ["#merino", "#handdyed", "#yak", "#canadian"],
     });
 
     await createProduct({
-      authorId: sandra.id,
-      title: "How does this work?",
-      content: "Seriously, does this even do anything?",
-      tags: ["#happy", "#worst-day-ever"],
+      name: "Spincycle Yarns",
+      price: 37.00,
+      image_url: <img src="images/spincycle-yarns.jpg"/>,
+      description: "Superwashed. 100% American wool, 150 yds. Made in the USA.",
+      color: "Dream State",
+      tags: ["#wool", "#american", "#superwash"],
     });
 
     await createProduct({
-      authorId: glamgal.id,
-      title: "Living the Glam Life",
-      content: "Do you even? I swear that half of you are posing.",
-      tags: ["#happy", "#youcandoanything", "#canmandoeverything"],
+      name: "LITLG",
+      price: 39.00,
+      image_url: <img src="images/litlg.jpg"/>,
+      description: "20% silk, 80% sw merino, 400 yds. Fingering weight. Made in Ireland.",
+      color: "Moon",
+      tags: ["#silk", "#merino", "#irish"],
     });
-    console.log("Finished creating posts!");
+
+    console.log("Finished creating products!");
   } catch (error) {
-    console.log("Error creating posts!");
+    console.log("Error creating products!");
     throw error;
   }
 }
@@ -172,39 +178,39 @@ async function testDB() {
 
     console.log("Calling updateUser on users[0]");
     const updateUserResult = await updateUser(users[0].id, {
-      name: "Newname Sogood",
-      location: "Lesterville, KY",
+      username: "purlone",
+      password: "Sellout!",
     });
     console.log("Result:", updateUserResult);
 
     console.log("Calling getAllProducts");
-    const posts = await getAllProducts();
+    const products = await getAllProducts();
     console.log("Result:", products);
 
     console.log("Calling updateProduct on products[0]");
     const updateProductResult = await updateProduct(products[0].id, {
-      title: "New Title",
-      content: "Updated Content",
+      name: "New Name",
+      description: "Updated Description",
     });
     console.log("Result:", updateProductResult);
 
     console.log("Calling updateProduct on poroducts[1], only updating tags");
     const updateProductTagsResult = await updateProduct(products[1].id, {
-      tags: ["#youcandoanything", "#redfish", "#bluefish"],
+      tags: ["#blue", "#cotton", "#scottish"],
     });
     console.log("Result:", updateProductTagsResult);
 
     console.log("Calling getUserById with 1");
-    const albert = await getUserById(1);
-    console.log("Result:", albert);
+    const matilda = await getUserById(1);
+    console.log("Result:", matilda);
 
     console.log("Calling getAllTags");
     const allTags = await getAllTags();
     console.log("Result:", allTags);
 
-    console.log("Calling getProductsByTagName with #happy");
-    const productsWithHappy = await getProductsByTagName("#happy");
-    console.log("Result:", postsWithHappy);
+    console.log("Calling getProductsByTagName with #irish");
+    const productsWithIrish = await getProductsByTagName("#irish");
+    console.log("Result:", productsWithIrish);
 
     console.log("Finished database tests!");
   } catch (error) {
