@@ -48,6 +48,7 @@ CREATE TABLE users (
 
 CREATE TABLE products (
   id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id)
   name TEXT NOT NULL,
   price NUMERIC(10,2) NOT NULL, 
   image_url TEXT NOT NULL,
@@ -154,6 +155,30 @@ async function createInitialProducts() {
   }
 }
 
+async function createInitialReviews() {
+  try {
+    const [matilda, carley, knittycity] = await getAllUsers();
+
+    console.log("Starting to create products...");
+    await createReview({
+      review_text: "I loved knitting with this yarn!",
+    });
+
+    await createReview({
+      review_text: "This was a great gift for my friend who prefers to crochet.",
+    });
+
+    await createReview({
+      review_text: "I would purchase this yarn again 😊. So soft!",
+    });
+
+    console.log("Finished creating reviews!");
+  } catch (error) {
+    console.log("Error creating reviews!");
+    throw error;
+  }
+}
+
 async function rebuildDB() {
   try {
     client.connect();
@@ -162,6 +187,7 @@ async function rebuildDB() {
     await createTables();
     await createInitialUsers();
     await createInitialProducts();
+    await createInitialReviews();
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;

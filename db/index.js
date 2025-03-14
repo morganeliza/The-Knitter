@@ -14,18 +14,18 @@ const client = new Client({
  * USER Methods
  */
 
-async function createUser({ username, password, name, location }) {
+async function createUser({ username, password, name }) {
   try {
     const {
       rows: [user],
     } = await client.query(
       `
-      INSERT INTO users(username, password, name, location) 
-      VALUES($1, $2, $3, $4) 
+      INSERT INTO users(username, password, name) 
+      VALUES($1, $2, $3) 
       ON CONFLICT (username) DO NOTHING 
       RETURNING *;
     `,
-      [username, password, name, location]
+      [username, password, name]
     );
 
     return user;
@@ -67,7 +67,7 @@ async function updateUser(id, fields = {}) {
 async function getAllUsers() {
   try {
     const { rows } = await client.query(`
-      SELECT id, username, name, location, active 
+      SELECT id, username, name, active 
       FROM users;
     `);
 
@@ -82,7 +82,7 @@ async function getUserById(userId) {
     const {
       rows: [user],
     } = await client.query(`
-      SELECT id, username, name, location, active
+      SELECT id, username, name, active
       FROM users
       WHERE id=${userId}
     `);
@@ -94,7 +94,7 @@ async function getUserById(userId) {
       };
     }
 
-    user.posts = await getPostsByUser(userId);
+    user.reviews = await getReviewsByUser(userId);
 
     return user;
   } catch (error) {
@@ -132,28 +132,28 @@ async function getUserByUsername(username) {
  * POST Methods
  */
 
-async function createPost({ authorId, title, content, tags = [] }) {
+async function createProduct({ name, price, image_url, description, color, tags = [] }) {
   try {
     const {
-      rows: [post],
+      rows: [product],
     } = await client.query(
       `
-      INSERT INTO posts("authorId", title, content) 
-      VALUES($1, $2, $3)
+      INSERT INTO posts(name, price, image_url, description, color) 
+      VALUES($1, $2, $3, $4, $5)
       RETURNING *;
     `,
-      [authorId, title, content]
+      [name, price, image_url, description, color]
     );
-    console.log(post);
+    console.log(product);
     const tagList = await createTags(tags);
     console.log(tagList);
-    return await addTagsToPost(post.id, tagList);
+    return await addTagsToProduct(product.id, tagList);
   } catch (error) {
     throw error;
   }
 }
 
-async function updatePost(postId, fields = {}) {
+async function updateProduct(productId, fields = {}) {
   // read off the tags & remove that field
   const { tags } = fields; // might be undefined
   delete fields.tags;
@@ -168,9 +168,9 @@ async function updatePost(postId, fields = {}) {
     if (setString.length > 0) {
       await client.query(
         `
-        UPDATE posts
+        UPDATE products
         SET ${setString}
-        WHERE id=${postId}
+        WHERE id=${productId}
         RETURNING *;
       `,
         Object.values(fields)
@@ -179,7 +179,7 @@ async function updatePost(postId, fields = {}) {
 
     // return early if there's no tags to update
     if (tags === undefined) {
-      return await getPostById(postId);
+      return await getProductById(productId);
     }
 
     // make any new tags that need to be made
@@ -189,32 +189,32 @@ async function updatePost(postId, fields = {}) {
     // delete any post_tags from the database which aren't in that tagList
     await client.query(
       `
-      DELETE FROM post_tags
+      DELETE FROM product_tags
       WHERE "tagId"
       NOT IN (${tagListIdString})
-      AND "postId"=$1;
+      AND "productId"=$1;
     `,
-      [postId]
+      [productId]
     );
 
     // and create post_tags as necessary
-    await addTagsToPost(postId, tagList);
+    await addTagsToProduct(productId, tagList);
 
-    return await getPostById(postId);
+    return await getProductById(productId);
   } catch (error) {
     throw error;
   }
 }
 
-async function getAllPosts() {
+async function getAllProducts() {
   try {
-    const { rows: postIds } = await client.query(`
+    const { rows: productIds } = await client.query(`
       SELECT id
-      FROM posts;
+      FROM products;
     `);
 
-    const posts = await Promise.all(
-      postIds.map((post) => getPostById(post.id))
+    const products = await Promise.all(
+      productIds.map((product) => getProductById(product.id))
     );
 
     return posts;
@@ -223,23 +223,23 @@ async function getAllPosts() {
   }
 }
 
-async function getPostById(postId) {
+async function getProductById(productId) {
   try {
     const {
-      rows: [post],
+      rows: [product],
     } = await client.query(
       `
       SELECT *
-      FROM posts
+      FROM products
       WHERE id=$1;
     `,
-      [postId]
+      [productId]
     );
 
-    if (!post) {
+    if (!product) {
       throw {
-        name: "PostNotFoundError",
-        message: "Could not find a post with that postId",
+        name: "ProductNotFoundError",
+        message: "Could not find a product with that productId",
       };
     }
 
@@ -247,66 +247,66 @@ async function getPostById(postId) {
       `
       SELECT tags.*
       FROM tags
-      JOIN post_tags ON tags.id=post_tags."tagId"
-      WHERE post_tags."postId"=$1;
+      JOIN product_tags ON tags.id=product_tags."tagId"
+      WHERE product_tags."productId"=$1;
     `,
-      [postId]
+      [productId]
     );
 
     const {
-      rows: [author],
+      rows: [name],
     } = await client.query(
       `
-      SELECT id, username, name, location
+      SELECT id, username, name
       FROM users
       WHERE id=$1;
     `,
-      [post.authorId]
+      [product.name]
     );
 
-    post.tags = tags;
-    post.author = author;
+    product.tags = tags;
+    product.name = name;
 
-    delete post.authorId;
+    delete product.name;
 
-    return post;
+    return product;
   } catch (error) {
     throw error;
   }
 }
 
-async function getPostsByUser(userId) {
+async function getProductsByUser(userId) {
   try {
-    const { rows: postIds } = await client.query(`
+    const { rows: productIds } = await client.query(`
       SELECT id 
-      FROM posts 
-      WHERE "authorId"=${userId};
+      FROM products 
+      WHERE user_id=${userId};
     `);
 
-    const posts = await Promise.all(
-      postIds.map((post) => getPostById(post.id))
+    const products = await Promise.all(
+      productIds.map((product) => getProductById(product.id))
     );
 
-    return posts;
+    return products;
   } catch (error) {
     throw error;
   }
 }
 
-async function getPostsByTagName(tagName) {
+async function getProductsByTagName(tagName) {
   try {
-    const { rows: postIds } = await client.query(
+    const { rows: productIds } = await client.query(
       `
-      SELECT posts.id
-      FROM posts
-      JOIN post_tags ON posts.id=post_tags."postId"
-      JOIN tags ON tags.id=post_tags."tagId"
+      SELECT products.id
+      FROM products
+      JOIN product_tags ON products.id=product_tags."productId"
+      JOIN tags ON tags.id=product_tags."tagId"
       WHERE tags.name=$1;
     `,
       [tagName]
     );
 
-    return await Promise.all(postIds.map((post) => getPostById(post.id)));
+    return await Promise.all(productIds.map((post) => getProductById(product.id)));
   } catch (error) {
     throw error;
   }
@@ -356,7 +356,7 @@ async function createTags(tagList) {
   }
 }
 
-async function createPostTag(postId, tagId) {
+async function createProductTag(postId, tagId) {
   try {
     await client.query(
       `
@@ -373,13 +373,13 @@ async function createPostTag(postId, tagId) {
 
 async function addTagsToPost(postId, tagList) {
   try {
-    const createPostTagPromises = tagList.map((tag) =>
-      createPostTag(postId, tag.id)
+    const createProductTagPromises = tagList.map((tag) =>
+      createProductTag(productId, tag.id)
     );
 
-    await Promise.all(createPostTagPromises);
+    await Promise.all(createProductTagPromises);
 
-    return await getPostById(postId);
+    return await getProductById(productId);
   } catch (error) {
     throw error;
   }
@@ -398,17 +398,17 @@ async function getAllTags() {
   }
 }
 
-async function deletePost(postId) {
+async function deleteProduct(productId) {
   try {
-    await client.query(`DELETE FROM post_tags WHERE "postId" = $1;`, [postId]);
+    await client.query(`DELETE FROM product_tags WHERE "productId" = $1;`, [productId]);
 
     const {
-      rows: [post],
-    } = await client.query(`DELETE FROM posts WHERE id = $1 RETURNING *;`, [
-      postId,
+      rows: [product],
+    } = await client.query(`DELETE FROM products WHERE id = $1 RETURNING *;`, [
+      productId,
     ]);
 
-    return post;
+    return product;
   } catch (error) {
     throw error;
   }
@@ -421,15 +421,15 @@ module.exports = {
   getAllUsers,
   getUserById,
   getUserByUsername,
-  getPostById,
-  createPost,
-  updatePost,
-  getAllPosts,
-  getPostsByUser,
-  getPostsByTagName,
+  getProductById,
+  createProduct,
+  updateProduct,
+  getAllProducts,
+  getProductsByUser,
+  getProductsByTagName,
   createTags,
   getAllTags,
-  createPostTag,
-  addTagsToPost,
-  deletePost,
+  createProductTag,
+  addTagsToProduct,
+  deleteProduct,
 };

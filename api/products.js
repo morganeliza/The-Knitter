@@ -3,20 +3,20 @@ const postsRouter = express.Router();
 
 const { requireUser } = require("./utils");
 
-const { createPost, getAllPosts, updatePost, getPostById } = require("../db");
+const { createProduct, getAllProducts, updateProduct, getProductById } = require("../db");
 
-postsRouter.get("/", async (req, res, next) => {
+productsRouter.get("/", async (req, res, next) => {
   try {
-    const allPosts = await getAllPosts();
+    const allProducts = await getAllProducts();
 
-    const posts = allPosts.filter((post) => {
-      // the post is active, doesn't matter who it belongs to
-      if (post.active) {
+    const posts = allProducts.filter((product) => {
+      // the product is active, doesn't matter who it belongs to
+      if (product.active) {
         return true;
       }
 
-      // the post is not active, but it belogs to the current user
-      if (req.user && post.author.id === req.user.id) {
+      // the product is not active, but it belogs to the current user
+      if (req.user && product.author.id === req.user.id) {
         return true;
       }
 
@@ -25,24 +25,27 @@ postsRouter.get("/", async (req, res, next) => {
     });
 
     res.send({
-      posts,
+      products,
     });
   } catch ({ name, message }) {
     next({ name, message });
   }
 });
 
-postsRouter.post("/", requireUser, async (req, res, next) => {
-  const { title, content = "", tags = [] } = req.body;
+productsRouter.product("/", requireUser, async (req, res, next) => {
+  const { name, price, image_url, description, color = "", tags = [] } = req.body;
   console.log(req.user);
   console.log(req.body);
-  const postData = {};
+  const productData = {};
 
   try {
-    postData.authorId = req.user.id;
-    postData.title = title;
-    postData.content = content;
-    postData.tags = tags;
+    productData.user_id = req.user.id;
+    productData.name = name;
+    productData.price = price;
+    productData.image_url = image_url;
+    productData.description = description;
+    productData.color = color;
+    productData.tags = tags;
 
     const post = await createPost(postData);
 
