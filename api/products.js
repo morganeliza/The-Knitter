@@ -1,5 +1,5 @@
 const express = require("express");
-const postsRouter = express.Router();
+const productsRouter = express.Router();
 
 const { requireUser } = require("./utils");
 
@@ -47,14 +47,14 @@ productsRouter.product("/", requireUser, async (req, res, next) => {
     productData.color = color;
     productData.tags = tags;
 
-    const post = await createPost(postData);
+    const product = await createProduct(productData);
 
-    if (post) {
-      res.send(post);
+    if (product) {
+      res.send(product);
     } else {
       next({
-        name: "PostCreationError",
-        message: "There was an error creating your post. Please try again.",
+        name: "ProductCreationError",
+        message: "There was an error creating your product. Please try again.",
       });
     }
   } catch ({ name, message }) {
@@ -62,9 +62,9 @@ productsRouter.product("/", requireUser, async (req, res, next) => {
   }
 });
 
-postsRouter.patch("/:postId", requireUser, async (req, res, next) => {
-  const { postId } = req.params;
-  const { title, content, tags } = req.body;
+productsRouter.patch("/:productId", requireUser, async (req, res, next) => {
+  const { productId } = req.params;
+  const { name, price, image_url, description, color, tags } = req.body;
 
   const updateFields = {};
 
@@ -72,24 +72,36 @@ postsRouter.patch("/:postId", requireUser, async (req, res, next) => {
     updateFields.tags = tags.trim().split(/\s+/);
   }
 
-  if (title) {
-    updateFields.title = title;
+  if (name) {
+    updateFields.name = name;
   }
 
-  if (content) {
-    updateFields.content = content;
+  if (price) {
+    updateFields.price = price;
+  }
+
+  if (image_url) {
+    updateFields.image_url = image_url;
+  }
+
+  if (description) {
+    updateFields.description = description;
+  }
+
+  if (color) {
+    updateFields.color = color;
   }
 
   try {
-    const originalPost = await getPostById(postId);
+    const originalProduct = await getProductById(productId);
 
-    if (originalPost.author.id === req.user.id) {
-      const updatedPost = await updatePost(postId, updateFields);
-      res.send({ post: updatedPost });
+    if (originalProduct.user_id === req.user.id) {
+      const updatedProduct = await updateProduct(productId, updateFields);
+      res.send({ product: updatedProduct });
     } else {
       next({
         name: "UnauthorizedUserError",
-        message: "You cannot update a post that is not yours",
+        message: "You cannot update a product that is not yours",
       });
     }
   } catch ({ name, message }) {
@@ -97,19 +109,19 @@ postsRouter.patch("/:postId", requireUser, async (req, res, next) => {
   }
 });
 
-postsRouter.delete("/:postId", requireUser, async (req, res, next) => {
+productsRouter.delete("/:productId", requireUser, async (req, res, next) => {
   try {
-    const postId = req.params.postId; console.log(postId)
-    const post = await getPostById(postId);
-    if (!post) {
-      return res.status(404).json({ error: "Post not found" });
+    const producttId = req.params.productId; console.log(productId)
+    const product = await getProductById(productId);
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
     }
-    if (post.user_id !== req.user.id) {
+    if (product.user_id !== req.user.id) {
       const error = Error("not authorized");
       error.status = 401;
       throw error;
     }
-    await deletePost({ id: postId });
+    await deleteProduct({ id: productId });
     res.sendStatus(204);
   } catch (ex) {
     next(ex);
@@ -117,4 +129,4 @@ postsRouter.delete("/:postId", requireUser, async (req, res, next) => {
   // res.send({ message: 'under construction' });
 });
 
-module.exports = postsRouter;
+module.exports = productsRouter;
