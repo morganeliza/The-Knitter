@@ -3,7 +3,7 @@ const tagsRouter = express.Router();
 
 const { 
   getAllTags,
-  getPostsByTagName
+  getProductsByTagName
 } = require('../db');
 
 tagsRouter.get('/', async (req, res, next) => {
@@ -18,28 +18,28 @@ tagsRouter.get('/', async (req, res, next) => {
   }
 });
 
-tagsRouter.get('/:tagName/posts', async (req, res, next) => {
+tagsRouter.get('/:tagName/products', async (req, res, next) => {
   let { tagName } = req.params;
   
   // decode %23happy to #happy
   tagName = decodeURIComponent(tagName)
 
   try {
-    const allPosts = await getPostsByTagName(tagName);
+    const allProducts = await getProductsByTagName(tagName);
 
-    const posts = allPosts.filter(post => {
-      if (post.active) {
+    const products = allProducts.filter(product => {
+      if (product.active) {
         return true;
       }
 
-      if (req.user && req.user.id === post.author.id) {
+      if (req.user && req.user.id === product.user_id) {
         return true;
       }
 
       return false;
     })
 
-    res.send({ posts });
+    res.send({ products });
   } catch ({ name, message }) {
     next({ name, message });
   }
