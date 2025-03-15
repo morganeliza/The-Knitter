@@ -16,7 +16,7 @@ productsRouter.get("/", async (req, res, next) => {
       }
 
       // the product is not active, but it belogs to the current user
-      if (req.user && product.author.id === req.user.id) {
+      if (req.user && product.user_id === req.user.id) {
         return true;
       }
 
