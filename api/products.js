@@ -111,7 +111,7 @@ productsRouter.patch("/:productId", requireUser, async (req, res, next) => {
 
 productsRouter.delete("/:productId", requireUser, async (req, res, next) => {
   try {
-    const producttId = req.params.productId; console.log(productId)
+    const productId = req.params.productId; console.log(productId)
     const product = await getProductById(productId);
     if (!product) {
       return res.status(404).json({ error: "Product not found" });
