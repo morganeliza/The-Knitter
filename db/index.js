@@ -132,7 +132,7 @@ async function getUserByUsername(username) {
  * PRODUCT Methods
  */
 
-async function createProduct({ name, price, image_url, description, color, tags = [] }) {
+async function createProduct({ name, price, image_url, description, color }) {
   try {
     const {
       rows: [product],
@@ -145,9 +145,10 @@ async function createProduct({ name, price, image_url, description, color, tags 
       [name, price, image_url, description, color]
     );
     console.log(product);
-    const tagList = await createTags(tags);
-    console.log(tagList);
-    return await addTagsToProduct(product.id, tagList);
+    // const tagList = await createTags(tags);
+    // console.log(tagList);
+    // return await addTagsToProduct(product.id, tagList);
+    return product;
   } catch (error) {
     throw error;
   }
@@ -212,7 +213,7 @@ async function getAllProducts() {
       SELECT id
       FROM products;
     `);
-
+    console.log(productIds);
     const products = await Promise.all(
       productIds.map((product) => getProductById(product.id))
     );
@@ -243,31 +244,31 @@ async function getProductById(productId) {
       };
     }
 
-    const { rows: tags } = await client.query(
-      `
-      SELECT tags.*
-      FROM tags
-      JOIN product_tags ON tags.id=product_tags."tagId"
-      WHERE product_tags."productId"=$1;
-    `,
-      [productId]
-    );
+    // const { rows: tags } = await client.query(
+    //   `
+    //   SELECT tags.*
+    //   FROM tags
+    //   JOIN product_tags ON tags.id=product_tags."tagId"
+    //   WHERE product_tags."productId"=$1;
+    // `,
+    //   [productId]
+    // );
 
-    const {
-      rows: [name],
-    } = await client.query(
-      `
-      SELECT id, username, name
-      FROM users
-      WHERE id=$1;
-    `,
-      [product.name]
-    );
+    // const {
+    //   rows: [name],
+    // } = await client.query(
+    //   `
+    //   SELECT id, username, name
+    //   FROM users
+    //   WHERE id=$1;
+    // `,
+    //   [product.name]
+    // );
 
-    product.tags = tags;
-    product.name = name;
+    // product.tags = tags;
+    // product.name = name;
 
-    delete product.name;
+    // delete product.name;
 
     return product;
   } catch (error) {
@@ -306,7 +307,9 @@ async function getProductsByTagName(tagName) {
       [tagName]
     );
 
-    return await Promise.all(productIds.map((post) => getProductById(product.id)));
+    return await Promise.all(
+      productIds.map((post) => getProductById(product.id))
+    );
   } catch (error) {
     throw error;
   }
@@ -316,22 +319,23 @@ async function getProductsByTagName(tagName) {
  * REVIEWS Methods
  */
 
-async function createReview({ review_text, tags = [] }) {
+async function createReview({ review_text, rating }) {
   try {
     const {
       rows: [review],
     } = await client.query(
       `
-      INSERT INTO reviews(review_text, rating, created_at) 
-      VALUES($1, $2, $3)
+      INSERT INTO reviews(review_text, rating) 
+      VALUES($1, $2)
       RETURNING *;
     `,
-      [review_text]
+      [review_text, rating]
     );
     console.log(review);
-    const tagList = await createTags(tags);
-    console.log(tagList);
-    return await addTagsToReview(review.id, tagList);
+    // const tagList = await createTags(tags);
+    // console.log(tagList);
+    // return await addTagsToReview(review.id, tagList);
+    return review;
   } catch (error) {
     throw error;
   }
@@ -496,22 +500,23 @@ async function getReviewsByTagName(tagName) {
   }
 }
 
-async function createComment({ comment_text, tags = [] }) {
+async function createComment({ comment_text, user_id, review_id }) {
   try {
     const {
       rows: [comment],
     } = await client.query(
       `
-      INSERT INTO comments(comment_text, created_at) 
-      VALUES($1, $2)
+      INSERT INTO comments(comment_text, user_id, review_id) 
+      VALUES($1, $2, $3)
       RETURNING *;
     `,
-      [comment_text]
+      [comment_text, user_id, review_id]
     );
     console.log(comment);
-    const tagList = await createTags(tags);
-    console.log(tagList);
-    return await addTagsToComment(comment.id, tagList);
+    // const tagList = await createTags(tags);
+    // console.log(tagList);
+    // return await addTagsToComment(comment.id, tagList);
+    return comment;
   } catch (error) {
     throw error;
   }
@@ -670,7 +675,9 @@ async function getCommentsByTagName(tagName) {
       [tagName]
     );
 
-    return await Promise.all(commentIds.map((post) => getCommentById(comment.id)));
+    return await Promise.all(
+      commentIds.map((post) => getCommentById(comment.id))
+    );
   } catch (error) {
     throw error;
   }
@@ -822,7 +829,9 @@ async function getAllTags() {
 
 async function deleteProduct(productId) {
   try {
-    await client.query(`DELETE FROM product_tags WHERE "productId" = $1;`, [productId]);
+    await client.query(`DELETE FROM product_tags WHERE "productId" = $1;`, [
+      productId,
+    ]);
 
     const {
       rows: [product],
@@ -838,7 +847,9 @@ async function deleteProduct(productId) {
 
 async function deleteReview(reviewId) {
   try {
-    await client.query(`DELETE FROM review_tags WHERE "reviewId" = $1;`, [reviewId]);
+    await client.query(`DELETE FROM review_tags WHERE "reviewId" = $1;`, [
+      reviewId,
+    ]);
 
     const {
       rows: [review],
@@ -854,7 +865,9 @@ async function deleteReview(reviewId) {
 
 async function deleteComment(commentId) {
   try {
-    await client.query(`DELETE FROM comment_tags WHERE "commentId" = $1;`, [commentId]);
+    await client.query(`DELETE FROM comment_tags WHERE "commentId" = $1;`, [
+      commentId,
+    ]);
 
     const {
       rows: [comment],

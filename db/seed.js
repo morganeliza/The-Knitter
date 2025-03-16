@@ -48,7 +48,7 @@ async function createTables() {
     await client.query(`
 
 CREATE TABLE users (
-  id UUID PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   username VARCHAR(255) UNIQUE NOT NULL,
   password VARCHAR(255) NOT NULL,
   name VARCHAR(255) NOT NULL,
@@ -62,30 +62,29 @@ CREATE TABLE products (
   price NUMERIC(10,2) NOT NULL, 
   image_url TEXT NOT NULL,
   description TEXT NOT NULL,
-  color TEXT NOT NULL,
-  tags TEXT
+  color TEXT NOT NULL
 );
 
 CREATE TABLE reviews (
-  id UUID PRIMARY KEY,
-  user_id UUID REFERENCES users(id), 
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id), 
   product_id INTEGER REFERENCES products(id), 
   review_text TEXT NOT NULL,
   rating INTEGER CHECK (rating BETWEEN 1 AND 5),
-  created_at TIMESTAMP DEFAULT now()
+  created_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
 CREATE TABLE comments (
-  id UUID PRIMARY KEY,
-  user_id UUID REFERENCES users(id),
-  review_id UUID REFERENCES reviews(id),
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id),
+  review_id INTEGER REFERENCES reviews(id),
   comment_text TEXT NOT NULL,
-  created_at TIMESTAMP DEFAULT now()
+  created_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
 CREATE TABLE orders (
-  id UUID PRIMARY KEY,
-  user_id UUID REFERENCES users(id), 
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id), 
   status VARCHAR(50) DEFAULT 'pending'  
 );
 
@@ -95,8 +94,8 @@ CREATE TABLE tags (
 );
 
 CREATE TABLE user_orders (
-  "userId" UUID REFERENCES users(id),
-  "orderId" UUID REFERENCES orders(id),
+  "userId" INTEGER REFERENCES users(id),
+  "orderId" INTEGER REFERENCES orders(id),
   CONSTRAINT unique_user_id_and_order_id UNIQUE ("userId", "orderId")
 );
     `);
@@ -143,7 +142,7 @@ async function createInitialProducts() {
     await createProduct({
       name: "Mailles a Part",
       price: 40.0,
-      image_url: <img src="images/mailles-a-part.jpg" />,
+      image_url: "images/mailles-a-part.jpg",
       description:
         "Hand Dyed. 70% merino superwash, 20% yak, 10% nylon, 437 yds. Dyed in Quebec, Canada.",
       color: "Rose",
@@ -153,7 +152,7 @@ async function createInitialProducts() {
     await createProduct({
       name: "Spincycle Yarns",
       price: 37.0,
-      image_url: <img src="images/spincycle-yarns.jpg" />,
+      image_url: "images/spincycle-yarns.jpg",
       description: "Superwashed. 100% American wool, 150 yds. Made in the USA.",
       color: "Dream State",
       tags: ["#wool", "#american", "#superwash"],
@@ -162,7 +161,7 @@ async function createInitialProducts() {
     await createProduct({
       name: "LITLG",
       price: 39.0,
-      image_url: <img src="images/litlg.jpg" />,
+      image_url: "images/litlg.jpg",
       description:
         "20% silk, 80% sw merino, 400 yds. Fingering weight. Made in Ireland.",
       color: "Moon",
@@ -211,17 +210,20 @@ async function createInitialComments() {
     console.log("Starting to create comments...");
     await createComment({
       comment_text: "I agree!",
-      created_at: new Date(),
+      user_id: 1,
+      review_id: 1
     });
 
     await createComment({
       comment_text: "I disagree 😕",
-      created_at: new Date(),
+      user_id: 2,
+      review_id: 2
     });
 
     await createComment({
       comment_text: "When will this yarn be restocked?",
-      created_at: new Date(),
+      user_id: 3,
+      review_id: 3
     });
 
     console.log("Finished creating comments!");
@@ -266,18 +268,18 @@ async function testDB() {
     const products = await getAllProducts();
     console.log("Result:", products);
 
-    console.log("Calling updateProduct on products[0]");
-    const updateProductResult = await updateProduct(products[0].id, {
-      name: "New Name",
-      description: "Updated Description",
-    });
-    console.log("Result:", updateProductResult);
+    // console.log("Calling updateProduct on products[0]");
+    // const updateProductResult = await updateProduct(products[0].id, {
+    //   name: "New Name",
+    //   description: "Updated Description",
+    // });
+    // console.log("Result:", updateProductResult);
 
-    console.log("Calling updateProduct on poroducts[1], only updating tags");
-    const updateProductTagsResult = await updateProduct(products[1].id, {
-      tags: ["#blue", "#cotton", "#scottish"],
-    });
-    console.log("Result:", updateProductTagsResult);
+    // console.log("Calling updateProduct on poroducts[1], only updating tags");
+    // const updateProductTagsResult = await updateProduct(products[1].id, {
+    //   tags: ["#blue", "#cotton", "#scottish"],
+    // });
+    // console.log("Result:", updateProductTagsResult);
 
     console.log("Calling getUserById with 1");
     const matilda = await getUserById(1);
@@ -287,9 +289,9 @@ async function testDB() {
     const allTags = await getAllTags();
     console.log("Result:", allTags);
 
-    console.log("Calling getProductsByTagName with #irish");
-    const productsWithIrish = await getProductsByTagName("#irish");
-    console.log("Result:", productsWithIrish);
+    // console.log("Calling getProductsByTagName with #irish");
+    // const productsWithIrish = await getProductsByTagName("#irish");
+    // console.log("Result:", productsWithIrish);
 
     console.log("Finished database tests!");
   } catch (error) {
