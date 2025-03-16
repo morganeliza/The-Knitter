@@ -35,7 +35,7 @@ reviewsRouter.get("/", async (req, res, next) => {
 });
 
 reviewsRouter.review("/", requireUser, async (req, res, next) => {
-  const { review_text, tags = [] } = req.body;
+  const { review_text, rating } = req.body;
   console.log(req.user);
   console.log(req.body);
   const reviewData = {};
@@ -43,7 +43,7 @@ reviewsRouter.review("/", requireUser, async (req, res, next) => {
   try {
     reviewData.user_id = req.user.id;
     reviewData.review_text = review_text;
-    reviewData.tags = tags;
+    reviewData.rating = rating;
 
     const review = await createReview(reviewData);
 
@@ -62,16 +62,20 @@ reviewsRouter.review("/", requireUser, async (req, res, next) => {
 
 reviewsRouter.patch("/:reviewId", requireUser, async (req, res, next) => {
   const { reviewId } = req.params;
-  const { review_text, tags } = req.body;
+  const { review_text, rating } = req.body;
 
   const updateFields = {};
 
-  if (tags && tags.length > 0) {
-    updateFields.tags = tags.trim().split(/\s+/);
-  }
+//   if (tags && tags.length > 0) {
+//     updateFields.tags = tags.trim().split(/\s+/);
+//   }
 
   if (review_text) {
     updateFields.review_text = review_text;
+  }
+
+  if (rating) {
+    updateFields.rating = rating;
   }
 
   try {

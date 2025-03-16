@@ -33,7 +33,7 @@ productsRouter.get("/", async (req, res, next) => {
 });
 
 productsRouter.product("/", requireUser, async (req, res, next) => {
-  const { name, price, image_url, description, color = "", tags = [] } = req.body;
+  const { name, price, image_url, description, color = ""} = req.body;
   console.log(req.user);
   console.log(req.body);
   const productData = {};
@@ -45,7 +45,7 @@ productsRouter.product("/", requireUser, async (req, res, next) => {
     productData.image_url = image_url;
     productData.description = description;
     productData.color = color;
-    productData.tags = tags;
+    // productData.tags = tags;
 
     const product = await createProduct(productData);
 

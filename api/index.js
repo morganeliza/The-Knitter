@@ -55,6 +55,12 @@ apiRouter.use('/users', usersRouter);
 const productsRouter = require('./products');
 apiRouter.use('/products', productsRouter);
 
+const reviewsRouter = require('./reviews');
+apiRouter.use('/reviews', reviewsRouter);
+
+const commentsRouter = require('./comments');
+apiRouter.use('/comments', commentsRouter);
+
 const tagsRouter = require('./tags');
 apiRouter.use('/tags', tagsRouter);
 

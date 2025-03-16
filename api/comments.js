@@ -17,7 +17,7 @@ reviewsRouter.get("/", async (req, res, next) => {
         return true;
       }
 
-      // the comment is not active, but it belogs to the current user
+      // the comment is not active, but it belongs to the current user
       if (req.user && review.user_id === req.user.id) {
         return true;
       }
@@ -35,7 +35,7 @@ reviewsRouter.get("/", async (req, res, next) => {
 });
 
 commentsRouter.comment("/", requireUser, async (req, res, next) => {
-  const { comment_text, tags = [] } = req.body;
+  const { comment_text, user_id, review_id } = req.body;
   console.log(req.user);
   console.log(req.body);
   const commentData = {};
@@ -43,9 +43,9 @@ commentsRouter.comment("/", requireUser, async (req, res, next) => {
   try {
     commentData.user_id = req.user.id;
     commentData.comment_text = comment_text;
-    commentData.tags = tags;
+    commentData.review_id = review_id;
 
-    const review = await createComment(commentData);
+    const comment = await createComment(commentData);
 
     if (comment) {
       res.send(comment);
@@ -62,16 +62,24 @@ commentsRouter.comment("/", requireUser, async (req, res, next) => {
 
 commentsRouter.patch("/:commentId", requireUser, async (req, res, next) => {
   const { commentId } = req.params;
-  const { comment_text, tags } = req.body;
+  const { comment_text, user_id, review_id } = req.body;
 
   const updateFields = {};
 
-  if (tags && tags.length > 0) {
-    updateFields.tags = tags.trim().split(/\s+/);
-  }
+//   if (tags && tags.length > 0) {
+//     updateFields.tags = tags.trim().split(/\s+/);
+//   }
 
   if (comment_text) {
     updateFields.comment_text = comment_text;
+  }
+
+  if (user_id) {
+    updateFields.user_id = user_id;
+  }
+
+  if (review_id) {
+    updateFields.review_id = review_id;
   }
 
   try {
@@ -95,7 +103,7 @@ commentsRouter.delete("/:commentId", requireUser, async (req, res, next) => {
   try {
     const commentId = req.params.commentId; console.log(commentId)
     const comment = await getCommentById(commentId);
-    if (!review) {
+    if (!comment) {
       return res.status(404).json({ error: "Comment not found" });
     }
     if (comment.user_id !== req.user.id) {
