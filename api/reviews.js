@@ -35,19 +35,15 @@ reviewsRouter.get("/", async (req, res, next) => {
 });
 
 reviewsRouter.review("/", requireUser, async (req, res, next) => {
-  const { name, price, image_url, description, color = "", tags = [] } = req.body;
+  const { review_text, tags = [] } = req.body;
   console.log(req.user);
   console.log(req.body);
   const reviewData = {};
 
   try {
-    productData.user_id = req.user.id;
-    productData.name = name;
-    productData.price = price;
-    productData.image_url = image_url;
-    productData.description = description;
-    productData.color = color;
-    productData.tags = tags;
+    reviewData.user_id = req.user.id;
+    reviewData.review_text = review_text;
+    reviewData.tags = tags;
 
     const review = await createReview(reviewData);
 
@@ -66,7 +62,7 @@ reviewsRouter.review("/", requireUser, async (req, res, next) => {
 
 reviewsRouter.patch("/:reviewId", requireUser, async (req, res, next) => {
   const { reviewId } = req.params;
-  const { name, price, image_url, description, color, tags } = req.body;
+  const { review_text, tags } = req.body;
 
   const updateFields = {};
 
@@ -74,24 +70,8 @@ reviewsRouter.patch("/:reviewId", requireUser, async (req, res, next) => {
     updateFields.tags = tags.trim().split(/\s+/);
   }
 
-  if (name) {
-    updateFields.name = name;
-  }
-
-  if (price) {
-    updateFields.price = price;
-  }
-
-  if (image_url) {
-    updateFields.image_url = image_url;
-  }
-
-  if (description) {
-    updateFields.description = description;
-  }
-
-  if (color) {
-    updateFields.color = color;
+  if (review_text) {
+    updateFields.review_text = review_text;
   }
 
   try {

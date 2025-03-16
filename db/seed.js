@@ -8,7 +8,15 @@ const {
   updateProduct,
   getAllProducts,
   getAllTags,
-  getPostsByTagName,
+  getProductsByTagName,
+  createReview, 
+  getAllReviews, 
+  updateReview, 
+  getReviewById,
+  createComment, 
+  getAllComments, 
+  updateComment, 
+  getCommentById,
 } = require("./index");
 
 async function dropTables() {
@@ -20,6 +28,7 @@ async function dropTables() {
       DROP TABLE IF EXISTS user_orders;
       DROP TABLE IF EXISTS tags;
       DROP TABLE IF EXISTS orders;
+      DROP TABLE IF EXISTS comments;
       DROP TABLE IF EXISTS reviews;
       DROP TABLE IF EXISTS products;
       DROP TABLE IF EXISTS users;
@@ -59,14 +68,21 @@ CREATE TABLE products (
 
 CREATE TABLE reviews (
   id UUID PRIMARY KEY,
-  user_id UUID REFERENCES users(id) ON DELETE CASCADE, 
-  product_id INTEGER REFERENCES products(id) ON DELETE CASCADE, 
+  user_id UUID REFERENCES users(id), 
+  product_id INTEGER REFERENCES products(id), 
   review_text TEXT NOT NULL
+);
+
+CREATE TABLE comments (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES users(id), 
+  review_id INTEGER REFERENCES reviews(id), 
+  comment_text TEXT NOT NULL
 );
 
 CREATE TABLE orders (
   id UUID PRIMARY KEY,
-  user_id UUID REFERENCES users(id) ON DELETE CASCADE, 
+  user_id UUID REFERENCES users(id), 
   status VARCHAR(50) DEFAULT 'pending'  
 );
 
@@ -76,8 +92,8 @@ CREATE TABLE tags (
 );
 
 CREATE TABLE user_orders (
-  "userId" UUID REFERENCES users(id) ON DELETE CASCADE,
-  "orderId" UUID REFERENCES orders(id) ON DELETE CASCADE,
+  "userId" UUID REFERENCES users(id),
+  "orderId" UUID REFERENCES orders(id),
   CONSTRAINT unique_user_id_and_order_id UNIQUE ("userId", "orderId")
 );
     `);
@@ -159,7 +175,7 @@ async function createInitialReviews() {
   try {
     const [matilda, carley, knittycity] = await getAllUsers();
 
-    console.log("Starting to create products...");
+    console.log("Starting to create reviews...");
     await createReview({
       review_text: "I loved knitting with this yarn!",
     });
@@ -179,6 +195,30 @@ async function createInitialReviews() {
   }
 }
 
+async function createInitialComments() {
+  try {
+    const [matilda, carley, knittycity] = await getAllUsers();
+
+    console.log("Starting to create comments...");
+    await createComment({
+      comment_text: "I agree!",
+    });
+
+    await createReview({
+      comment_text: "I disagree 😕",
+    });
+
+    await createReview({
+      comment_text: "When will this yarn restock?",
+    });
+
+    console.log("Finished creating comments!");
+  } catch (error) {
+    console.log("Error creating comments!");
+    throw error;
+  }
+}
+
 async function rebuildDB() {
   try {
     client.connect();
@@ -188,6 +228,7 @@ async function rebuildDB() {
     await createInitialUsers();
     await createInitialProducts();
     await createInitialReviews();
+    await createInitialComments();
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;
