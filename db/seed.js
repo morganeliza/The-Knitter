@@ -9,13 +9,13 @@ const {
   getAllProducts,
   getAllTags,
   getProductsByTagName,
-  createReview, 
-  getAllReviews, 
-  updateReview, 
+  createReview,
+  getAllReviews,
+  updateReview,
   getReviewById,
-  createComment, 
-  getAllComments, 
-  updateComment, 
+  createComment,
+  getAllComments,
+  updateComment,
   getCommentById,
 } = require("./index");
 
@@ -57,7 +57,7 @@ CREATE TABLE users (
 
 CREATE TABLE products (
   id SERIAL PRIMARY KEY,
-  user_id INTEGER REFERENCES users(id)
+  user_id INTEGER REFERENCES users(id),
   name TEXT NOT NULL,
   price NUMERIC(10,2) NOT NULL, 
   image_url TEXT NOT NULL,
@@ -70,14 +70,17 @@ CREATE TABLE reviews (
   id UUID PRIMARY KEY,
   user_id UUID REFERENCES users(id), 
   product_id INTEGER REFERENCES products(id), 
-  review_text TEXT NOT NULL
+  review_text TEXT NOT NULL,
+  rating INTEGER CHECK (rating BETWEEN 1 AND 5),
+  created_at TIMESTAMP DEFAULT now()
 );
 
 CREATE TABLE comments (
   id UUID PRIMARY KEY,
-  user_id UUID REFERENCES users(id), 
-  review_id INTEGER REFERENCES reviews(id), 
-  comment_text TEXT NOT NULL
+  user_id UUID REFERENCES users(id),
+  review_id UUID REFERENCES reviews(id),
+  comment_text TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT now()
 );
 
 CREATE TABLE orders (
@@ -139,17 +142,18 @@ async function createInitialProducts() {
     console.log("Starting to create products...");
     await createProduct({
       name: "Mailles a Part",
-      price: 40.00,
-      image_url: <img src="images/mailles-a-part.jpg"/>,
-      description: "Hand Dyed. 70% merino superwash, 20% yak, 10% nylon, 437 yds. Dyed in Quebec, Canada.",
+      price: 40.0,
+      image_url: <img src="images/mailles-a-part.jpg" />,
+      description:
+        "Hand Dyed. 70% merino superwash, 20% yak, 10% nylon, 437 yds. Dyed in Quebec, Canada.",
       color: "Rose",
       tags: ["#merino", "#handdyed", "#yak", "#canadian"],
     });
 
     await createProduct({
       name: "Spincycle Yarns",
-      price: 37.00,
-      image_url: <img src="images/spincycle-yarns.jpg"/>,
+      price: 37.0,
+      image_url: <img src="images/spincycle-yarns.jpg" />,
       description: "Superwashed. 100% American wool, 150 yds. Made in the USA.",
       color: "Dream State",
       tags: ["#wool", "#american", "#superwash"],
@@ -157,9 +161,10 @@ async function createInitialProducts() {
 
     await createProduct({
       name: "LITLG",
-      price: 39.00,
-      image_url: <img src="images/litlg.jpg"/>,
-      description: "20% silk, 80% sw merino, 400 yds. Fingering weight. Made in Ireland.",
+      price: 39.0,
+      image_url: <img src="images/litlg.jpg" />,
+      description:
+        "20% silk, 80% sw merino, 400 yds. Fingering weight. Made in Ireland.",
       color: "Moon",
       tags: ["#silk", "#merino", "#irish"],
     });
@@ -177,14 +182,18 @@ async function createInitialReviews() {
 
     console.log("Starting to create reviews...");
     await createReview({
+      rating: 5,
       review_text: "I loved knitting with this yarn!",
     });
 
     await createReview({
-      review_text: "This was a great gift for my friend who prefers to crochet.",
+      rating: 4,
+      review_text:
+        "This was a great gift for my friend who prefers to crochet.",
     });
 
     await createReview({
+      rating: 3,
       review_text: "I would purchase this yarn again 😊. So soft!",
     });
 
@@ -202,14 +211,17 @@ async function createInitialComments() {
     console.log("Starting to create comments...");
     await createComment({
       comment_text: "I agree!",
+      created_at: new Date(),
     });
 
-    await createReview({
+    await createComment({
       comment_text: "I disagree 😕",
+      created_at: new Date(),
     });
 
-    await createReview({
-      comment_text: "When will this yarn restock?",
+    await createComment({
+      comment_text: "When will this yarn be restocked?",
+      created_at: new Date(),
     });
 
     console.log("Finished creating comments!");
