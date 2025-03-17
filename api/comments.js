@@ -7,7 +7,7 @@ const { requireUser } = require("./utils");
 
 const { createComment, getAllComments, updateComment, getCommentById } = require("../db");
 
-reviewsRouter.get("/", async (req, res, next) => {
+commentsRouter.get("/", async (req, res, next) => {
   try {
     const allComments = await getAllComments();
 
@@ -18,7 +18,7 @@ reviewsRouter.get("/", async (req, res, next) => {
       }
 
       // the comment is not active, but it belongs to the current user
-      if (req.user && review.user_id === req.user.id) {
+      if (req.user && comment.user_id === req.user.id) {
         return true;
       }
 
