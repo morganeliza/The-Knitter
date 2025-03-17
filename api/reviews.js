@@ -101,6 +101,8 @@ reviewsRouter.delete("/:reviewId", requireUser, async (req, res, next) => {
     if (!review) {
       return res.status(404).json({ error: "Review not found" });
     }
+
+    console.log(review)
     if (review.user_id !== req.user.id) {
       const error = Error("not authorized");
       error.status = 401;

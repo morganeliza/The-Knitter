@@ -177,21 +177,28 @@ async function createInitialProducts() {
 
 async function createInitialReviews() {
   try {
-    const [matilda, carley, knittycity] = await getAllUsers();
+    const users = await getAllUsers();
+    console.log(users)
 
     console.log("Starting to create reviews...");
     await createReview({
+      user_id: 1,
+      product_id: 1,
       rating: 5,
       review_text: "I loved knitting with this yarn!",
     });
 
     await createReview({
+      user_id: 1,
+      product_id: 2,
       rating: 4,
       review_text:
         "This was a great gift for my friend who prefers to crochet.",
     });
 
     await createReview({
+      user_id: 1,
+      product_id: 3,
       rating: 3,
       review_text: "I would purchase this yarn again 😊. So soft!",
     });

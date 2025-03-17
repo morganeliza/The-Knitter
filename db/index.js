@@ -293,17 +293,17 @@ async function getProductsByTagName(tagName) {
  * REVIEWS Methods
  */
 
-async function createReview({ review_text, rating }) {
+async function createReview({ user_id, product_id, review_text, rating }) {
   try {
     const {
       rows: [review],
     } = await client.query(
       `
-      INSERT INTO reviews(review_text, rating) 
-      VALUES($1, $2)
+      INSERT INTO reviews(user_id, product_id, review_text, rating) 
+      VALUES($1, $2, $3, $4)
       RETURNING *;
     `,
-      [review_text, rating]
+      [user_id, product_id, review_text, rating]
     );
     console.log(review);
     // const tagList = await createTags(tags);
@@ -420,7 +420,7 @@ async function getReviewsByUser(userId) {
     `);
 
     const reviews = await Promise.all(
-      reviewIds.map((product) => getReviewById(review.id))
+      reviewIds.map((review) => getReviewById(review.id))
     );
 
     return reviews;
@@ -769,7 +769,7 @@ async function deleteProduct(productId) {
 
 async function deleteReview(reviewId) {
   try {
-    await client.query(`DELETE FROM review_tags WHERE "reviewId" = $1;`, [
+    await client.query(`DELETE FROM reviews WHERE "reviewId" = $1;`, [
       reviewId,
     ]);
 
