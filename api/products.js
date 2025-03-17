@@ -1,6 +1,6 @@
 const express = require("express");
 const productsRouter = express.Router();
-
+productsRouter.use(express.json())
 const { requireUser } = require("./utils");
 
 const { createProduct, getAllProducts, updateProduct, getProductById } = require("../db");
@@ -9,30 +9,15 @@ productsRouter.get("/", async (req, res, next) => {
   try {
     const allProducts = await getAllProducts();
 
-    const posts = allProducts.filter((product) => {
-      // the product is active, doesn't matter who it belongs to
-      if (product.active) {
-        return true;
-      }
-
-      // the product is not active, but it belogs to the current user
-      if (req.user && product.user_id === req.user.id) {
-        return true;
-      }
-
-      // none of the above are true
-      return false;
-    });
-
     res.send({
-      products,
+      allProducts,
     });
   } catch ({ name, message }) {
     next({ name, message });
   }
 });
 
-productsRouter.product("/", requireUser, async (req, res, next) => {
+productsRouter.post("/", requireUser, async (req, res, next) => {
   const { name, price, image_url, description, color = ""} = req.body;
   console.log(req.user);
   console.log(req.body);
@@ -45,7 +30,7 @@ productsRouter.product("/", requireUser, async (req, res, next) => {
     productData.image_url = image_url;
     productData.description = description;
     productData.color = color;
-    // productData.tags = tags;
+    productData.tags = tags;
 
     const product = await createProduct(productData);
 

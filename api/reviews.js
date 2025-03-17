@@ -34,7 +34,7 @@ reviewsRouter.get("/", async (req, res, next) => {
   }
 });
 
-reviewsRouter.review("/", requireUser, async (req, res, next) => {
+reviewsRouter.post("/", requireUser, async (req, res, next) => {
   const { review_text, rating } = req.body;
   console.log(req.user);
   console.log(req.body);

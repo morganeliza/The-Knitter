@@ -34,8 +34,8 @@ commentsRouter.get("/", async (req, res, next) => {
   }
 });
 
-commentsRouter.comment("/", requireUser, async (req, res, next) => {
-  const { comment_text, user_id, review_id } = req.body;
+commentsRouter.post("/", requireUser, async (req, res, next) => {
+  const { comment_text, review_id } = req.body;
   console.log(req.user);
   console.log(req.body);
   const commentData = {};
@@ -66,9 +66,9 @@ commentsRouter.patch("/:commentId", requireUser, async (req, res, next) => {
 
   const updateFields = {};
 
-//   if (tags && tags.length > 0) {
-//     updateFields.tags = tags.trim().split(/\s+/);
-//   }
+  if (tags && tags.length > 0) {
+    updateFields.tags = tags.trim().split(/\s+/);
+  }
 
   if (comment_text) {
     updateFields.comment_text = comment_text;

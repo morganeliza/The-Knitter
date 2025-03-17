@@ -275,7 +275,7 @@ async function testDB() {
     // });
     // console.log("Result:", updateProductResult);
 
-    // console.log("Calling updateProduct on poroducts[1], only updating tags");
+    // console.log("Calling updateProduct on products[1], only updating tags");
     // const updateProductTagsResult = await updateProduct(products[1].id, {
     //   tags: ["#blue", "#cotton", "#scottish"],
     // });
