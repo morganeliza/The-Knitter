@@ -64,8 +64,14 @@ apiRouter.use('/comments', commentsRouter);
 const tagsRouter = require('./tags');
 apiRouter.use('/tags', tagsRouter);
 
-apiRouter.use((error, req, res, next) => {
-  res.send(error);
+// apiRouter.use((error, req, res, next) => {
+//   res.send(error);
+// });
+
+//Error handling middleware
+apiRouter.use((err, req, res, next) => {
+  console.error(err.stack); // Log error stack trace
+  res.status(500).send({ error:err }); // Generic error response
 });
 
 module.exports = apiRouter;

@@ -1,11 +1,9 @@
-//copy products.js and edit??
-
 const express = require("express");
 const commentsRouter = express.Router();
-commentsRouter.use(express.json())
+// commentsRouter.use(express.json())
 const { requireUser } = require("./utils");
 
-const { createComment, getAllComments, updateComment, getCommentById } = require("../db");
+const { createComment, getAllComments, updateComment, getCommentById, deleteComment } = require("../db");
 
 commentsRouter.get("/", async (req, res, next) => {
   try {
@@ -86,8 +84,11 @@ commentsRouter.patch("/:commentId", requireUser, async (req, res, next) => {
 
 commentsRouter.delete("/:commentId", requireUser, async (req, res, next) => {
   try {
-    const commentId = req.params.commentId; console.log(commentId)
+    const commentId = req.params.commentId; 
+    console.log("params", commentId)
+    console.log("*******")
     const comment = await getCommentById(commentId);
+    console.log("got comment", comment)
     if (!comment) {
       return res.status(404).json({ error: "Comment not found" });
     }
@@ -96,7 +97,7 @@ commentsRouter.delete("/:commentId", requireUser, async (req, res, next) => {
       error.status = 401;
       throw error;
     }
-    await deleteComment({ id: commentId });
+    await deleteComment(commentId);
     res.sendStatus(204);
   } catch (ex) {
     next(ex);

@@ -212,7 +212,8 @@ async function createInitialReviews() {
 
 async function createInitialComments() {
   try {
-    const [matilda, carley, knittycity] = await getAllUsers();
+    const users = await getAllUsers();
+    console.log(users)
 
     console.log("Starting to create comments...");
     await createComment({

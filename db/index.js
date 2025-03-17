@@ -542,6 +542,7 @@ async function getAllComments() {
 
 async function getCommentById(commentId) {
   try {
+    console.log("in getComment", commentId)
     const {
       rows: [comment],
     } = await client.query(
@@ -552,12 +553,13 @@ async function getCommentById(commentId) {
     `,
       [commentId]
     );
+    console.log(comment)
 
     if (!comment) {
-      throw {
-        name: "CommentNotFoundError",
-        message: "Could not find a comment with that commentId",
-      };
+      // throw {
+      //   // name: "CommentNotFoundError",
+      //   // message: "Could not find a comment with that commentId",
+      // };
     }
 
     return comment;
@@ -787,10 +789,10 @@ async function deleteReview(reviewId) {
 
 async function deleteComment(commentId) {
   try {
-    await client.query(`DELETE FROM comment_tags WHERE "commentId" = $1;`, [
-      commentId,
-    ]);
-
+    // await client.query(`DELETE FROM comments WHERE "commentId" = $1;`, [
+    //   commentId,
+    // ]);
+console.log("deleteComment", commentId)
     const {
       rows: [comment],
     } = await client.query(`DELETE FROM comments WHERE id = $1 RETURNING *;`, [
@@ -835,6 +837,7 @@ module.exports = {
   updateComment,
   getAllComments,
   getCommentsByUser,
+  getCommentById,
   getCommentsByTagName,
   createCommentTag,
   addTagsToComment,
