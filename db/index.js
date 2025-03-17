@@ -531,7 +531,7 @@ async function getAllComments() {
     `);
 
     const comments = await Promise.all(
-      commentIds.map((review) => getCommentById(comment.id))
+      commentIds.map((comment) => getCommentById(comment.id))
     );
 
     return comments;
@@ -550,7 +550,7 @@ async function getCommentById(commentId) {
       FROM comments
       WHERE id=$1;
     `,
-      [reviewId]
+      [commentId]
     );
 
     if (!comment) {
@@ -559,32 +559,6 @@ async function getCommentById(commentId) {
         message: "Could not find a comment with that commentId",
       };
     }
-
-    const { rows: tags } = await client.query(
-      `
-      SELECT tags.*
-      FROM tags
-      JOIN comment_tags ON tags.id=comment_tags."tagId"
-      WHERE comment_tags."commentId"=$1;
-    `,
-      [commentId]
-    );
-
-    const {
-      rows: [name],
-    } = await client.query(
-      `
-      SELECT id, username, name
-      FROM users
-      WHERE id=$1;
-    `,
-      [comment.name]
-    );
-
-    comment.tags = tags;
-    comment.name = name;
-
-    delete comment.name;
 
     return comment;
   } catch (error) {

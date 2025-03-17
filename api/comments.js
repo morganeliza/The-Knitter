@@ -2,7 +2,7 @@
 
 const express = require("express");
 const commentsRouter = express.Router();
-
+commentsRouter.use(express.json())
 const { requireUser } = require("./utils");
 
 const { createComment, getAllComments, updateComment, getCommentById } = require("../db");
@@ -11,23 +11,8 @@ commentsRouter.get("/", async (req, res, next) => {
   try {
     const allComments = await getAllComments();
 
-    const comments = allComments.filter((comment) => {
-      // the comment is active, doesn't matter who it belongs to
-      if (comment.active) {
-        return true;
-      }
-
-      // the comment is not active, but it belongs to the current user
-      if (req.user && comment.user_id === req.user.id) {
-        return true;
-      }
-
-      // none of the above are true
-      return false;
-    });
-
     res.send({
-      comments,
+      allComments,
     });
   } catch ({ name, message }) {
     next({ name, message });
