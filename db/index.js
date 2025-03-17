@@ -244,32 +244,6 @@ async function getProductById(productId) {
       };
     }
 
-    // const { rows: tags } = await client.query(
-    //   `
-    //   SELECT tags.*
-    //   FROM tags
-    //   JOIN product_tags ON tags.id=product_tags."tagId"
-    //   WHERE product_tags."productId"=$1;
-    // `,
-    //   [productId]
-    // );
-
-    // const {
-    //   rows: [name],
-    // } = await client.query(
-    //   `
-    //   SELECT id, username, name
-    //   FROM users
-    //   WHERE id=$1;
-    // `,
-    //   [product.name]
-    // );
-
-    // product.tags = tags;
-    // product.name = name;
-
-    // delete product.name;
-
     return product;
   } catch (error) {
     throw error;
@@ -400,7 +374,7 @@ async function getAllReviews() {
       SELECT id
       FROM reviews;
     `);
-
+    console.log(reviewIds);
     const reviews = await Promise.all(
       reviewIds.map((review) => getReviewById(review.id))
     );
@@ -430,32 +404,6 @@ async function getReviewById(reviewId) {
         message: "Could not find a review with that reviewId",
       };
     }
-
-    const { rows: tags } = await client.query(
-      `
-      SELECT tags.*
-      FROM tags
-      JOIN review_tags ON tags.id=review_tags."tagId"
-      WHERE review_tags."reviewId"=$1;
-    `,
-      [reviewId]
-    );
-
-    const {
-      rows: [name],
-    } = await client.query(
-      `
-      SELECT id, username, name
-      FROM users
-      WHERE id=$1;
-    `,
-      [review.name]
-    );
-
-    review.tags = tags;
-    review.name = name;
-
-    delete review.name;
 
     return review;
   } catch (error) {

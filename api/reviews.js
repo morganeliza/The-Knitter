@@ -1,7 +1,6 @@
-//copy products.js and edit??
-
 const express = require("express");
 const reviewsRouter = express.Router();
+reviewsRouter.use(express.json())
 
 const { requireUser } = require("./utils");
 
@@ -11,23 +10,23 @@ reviewsRouter.get("/", async (req, res, next) => {
   try {
     const allReviews = await getAllReviews();
 
-    const reviews = allReviews.filter((review) => {
-      // the review is active, doesn't matter who it belongs to
-      if (review.active) {
-        return true;
-      }
+    // const reviews = allReviews.filter((review) => {
+    //   // the review is active, doesn't matter who it belongs to
+    //   if (review.active) {
+    //     return true;
+    //   }
 
-      // the review is not active, but it belogs to the current user
-      if (req.user && review.user_id === req.user.id) {
-        return true;
-      }
+    //   // the review is not active, but it belogs to the current user
+    //   if (req.user && review.user_id === req.user.id) {
+    //     return true;
+    //   }
 
-      // none of the above are true
-      return false;
-    });
+    //   // none of the above are true
+    //   return false;
+    // });
 
     res.send({
-      reviews,
+      allReviews,
     });
   } catch ({ name, message }) {
     next({ name, message });
