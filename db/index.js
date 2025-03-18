@@ -472,8 +472,7 @@ async function createComment({ comment_text, user_id, review_id }) {
 
 async function updateComment(commentId, fields = {}) {
   // read off the tags & remove that field
-  const { tags } = fields; // might be undefined
-  delete fields.tags;
+  const { review_id } = fields; // might be undefined
 
   // build the set string
   const setString = Object.keys(fields)
@@ -483,41 +482,19 @@ async function updateComment(commentId, fields = {}) {
   try {
     // update any fields that need to be updated
     if (setString.length > 0) {
-      await client.query(
+      const updatedComment = await client.query(
         `
         UPDATE comments
         SET ${setString}
-        WHERE id=${reviewId}
+        WHERE id=${review_id}
         RETURNING *;
       `,
         Object.values(fields)
       );
+      console.log(updatedComment);
+
+      return updatedComment.rows[0];
     }
-
-    // return early if there's no tags to update
-    if (tags === undefined) {
-      return await getCommentById(commentId);
-    }
-
-    // make any new tags that need to be made
-    const tagList = await createTags(tags);
-    const tagListIdString = tagList.map((tag) => `${tag.id}`).join(", ");
-
-    // delete any review_tags from the database which aren't in that tagList
-    await client.query(
-      `
-      DELETE FROM comment_tags
-      WHERE "tagId"
-      NOT IN (${tagListIdString})
-      AND "commentId"=$1;
-    `,
-      [commentId]
-    );
-
-    // and create post_tags as necessary
-    await addTagsToComment(commentId, tagList);
-
-    return await getCommentById(commentId);
   } catch (error) {
     throw error;
   }
@@ -542,7 +519,7 @@ async function getAllComments() {
 
 async function getCommentById(commentId) {
   try {
-    console.log("in getComment", commentId)
+    console.log("in getComment", commentId);
     const {
       rows: [comment],
     } = await client.query(
@@ -553,7 +530,7 @@ async function getCommentById(commentId) {
     `,
       [commentId]
     );
-    console.log(comment)
+    console.log(comment);
 
     if (!comment) {
       // throw {
@@ -792,7 +769,7 @@ async function deleteComment(commentId) {
     // await client.query(`DELETE FROM comments WHERE "commentId" = $1;`, [
     //   commentId,
     // ]);
-console.log("deleteComment", commentId)
+    console.log("deleteComment", commentId);
     const {
       rows: [comment],
     } = await client.query(`DELETE FROM comments WHERE id = $1 RETURNING *;`, [

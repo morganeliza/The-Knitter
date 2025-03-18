@@ -49,9 +49,9 @@ commentsRouter.patch("/:commentId", requireUser, async (req, res, next) => {
 
   const updateFields = {};
 
-  if (tags && tags.length > 0) {
-    updateFields.tags = tags.trim().split(/\s+/);
-  }
+  // if (tags && tags.length > 0) {
+  //   updateFields.tags = tags.trim().split(/\s+/);
+  // }
 
   if (comment_text) {
     updateFields.comment_text = comment_text;
