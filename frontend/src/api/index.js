@@ -8,7 +8,7 @@ export async function getProducts() {
         const result = await response.json();
         // const result = json.data;
         console.log(result.products)
-        return result.products;
+        return result;
     }
     catch (error) {
         console.log(error);

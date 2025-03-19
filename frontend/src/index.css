@@ -167,18 +167,19 @@ body {
   justify-content: center;
 }
 
-.name {
+.title {
   font-size: 2em;
   font-weight: bold;
-  background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff0000);
+  background: linear-gradient(45deg, #f2eea4, #9dab9d, #434c8d, #c67d7d);
   background-size: 200%;
   background-position: 0% 50%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   transition: background-position 4s linear;
+  letter-spacing: 18px;
 }
 
-.name:hover {
+.title:hover {
   background-position: 100% 50%;
 }
 

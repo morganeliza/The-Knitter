@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import React from "react";
 import Account from "./components/account";
 import Products from "./components/products";
@@ -20,8 +20,9 @@ function App() {
   useEffect(() => {
     async function getAllProducts() {
       const productsFromApi = await getProducts();
+      console.log(productsFromApi)
 
-      setProductsInApp(productsFromApi);
+      setProductsInApp(productsFromApi.allProducts);
     }
     getAllProducts();
   }, []);
@@ -65,7 +66,7 @@ function App() {
             </Link>
           )}
           <Link to={"/"}>
-            <button className="navbutton" onClick={()=> handleLogout()}>
+            <button className="navbutton" onClick={() => handleLogout()}>
               <h2>Logout</h2>
             </button>
           </Link>
@@ -89,8 +90,14 @@ function App() {
 
         <div>
           <Routes>
-            <Route path="/" element={<Products productsFromApp={filteredProducts} />} />
-            <Route path="/:id" element={<SingleProductDetails token={token} />} />
+            <Route
+              path="/"
+              element={<Products productsFromApp={filteredProducts} />}
+            />
+            <Route
+              path="/:id"
+              element={<SingleProductDetails token={token} />}
+            />
             <Route
               path="/register"
               element={<Register setToken={setToken} />}

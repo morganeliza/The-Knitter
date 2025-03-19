@@ -13,7 +13,7 @@ export default function Navigations({productsInApp}) {
         product.color.toLowerCase().includes(searchParam.toLowerCase())
     );
     setFilteredProducts(filteredProducts);
-  }, [searchParam]);
+  }, [searchParam, productsInApp]);
 
   if (filteredProducts.length > 0) {
     return (
