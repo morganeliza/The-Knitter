@@ -1,11 +1,10 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import bookimage from "./books.png";
 
 export default function Products({ productsFromApp }) {
-  const [products, setProducts] = useState([]);
-  const [searchParam, setSearchParam] = useState("");
-  const [productDetails, setProductDetails] = useState({});
+//   const [products, setProducts] = useState([]);
+//   const [searchParam, setSearchParam] = useState("");
+//   const [productDetails, setProductDetails] = useState({});
   const navigate = useNavigate();
  
 
@@ -15,25 +14,17 @@ export default function Products({ productsFromApp }) {
 
   return (
     <>
-      <div id="main-library">
+      <div id="main-pdp">
         {productsFromApp &&
-          booksFromApp.map((book, id) => {
+          productsFromApp.map((product, id) => {
             return (
               <>
-                <div className="Book">
-                  <h1>{book.title}</h1>
-                  <img
-                    className="image"
-                    src={
-                      book.author === "J.R.R. Tolkien"
-                        ? bookimage
-                        : book.coverimage
-                    }
-                  />
-                  <h3>{book.author}</h3>
-                  <h5>{book.description}</h5>
-                  <button id="status" onClick={() => getMoreDetails(book.id)}>
-                    Status
+                <div className="Product">
+                  <h1>{product.name}</h1>
+                  <h3>{product.price}</h3>
+                  <h5>{product.description}</h5>
+                  <button id="status" onClick={() => getMoreDetails(product.id)}>
+                    Buy
                   </button>
                 </div>
               </>

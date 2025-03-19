@@ -1,35 +1,108 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import { Routes, Route, Link } from "react-router-dom";
+import React from "react";
+import Account from "./components";
+import Products from "./components";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import SingleProductDetails from "./components/SingleProductDetails";
+import "./index.css";
+import { getProducts } from "./api";
+import { useNavigate } from "react-router-dom";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [productsInApp, setProductsInApp] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [searchParam, setSearchParam] = useState("");
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    async function getAllProducts() {
+      const productsFromApi = await getProducts();
+
+      setProductsInApp(productsFromApi);
+    }
+    getAllProducts();
+  }, []);
+
+  const handleLogout = () => {
+    setToken(null); // clear token state
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
+  const filteredProducts = productsInApp.filter(
+    (product) =>
+      product.name.toLowerCase().includes(searchParam.toLowerCase()) ||
+      product.color.toLowerCase().includes(searchParam.toLowerCase())
+  );
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="container">
+        <div className="navbar">
+          <Link to={"/"}>
+            <button className="navbutton">
+              <h2>Home</h2>
+            </button>
+          </Link>
+          <Link to={"/register"}>
+            <button className="navbutton">
+              <h2>Become a Member</h2>
+            </button>
+          </Link>
+          {token ? (
+            <Link to={"/users/me"}>
+              <button className="navbutton">
+                <h2>My Account</h2>
+              </button>
+            </Link>
+          ) : (
+            <Link to={"/login"}>
+              <button className="navbutton">
+                <h2>Login</h2>
+              </button>
+            </Link>
+          )}
+          <Link to={"/"}>
+            <button className="navbutton" onClick={()=> handleLogout()}>
+              <h2>Logout</h2>
+            </button>
+          </Link>
+
+          <div className="container">
+            <div className="search-container">
+              <input
+                type="text"
+                id="search"
+                placeholder="search product name or color"
+                value={searchParam}
+                onChange={(e) => setSearchParam(e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
+
+        <Link to={"/"}>
+          <h1 className="title">The Knitter</h1>
+        </Link>
+
+        <div>
+          <Routes>
+            <Route path="/" element={<Products productsFromApp={filteredProducts} />} />
+            <Route path="/:id" element={<SingleProductDetails token={token} />} />
+            <Route
+              path="/register"
+              element={<Register setToken={setToken} />}
+            />
+            <Route path="/login" element={<Login setToken={setToken} />} />
+
+            <Route path="/users/me" element={<Account setToken={setToken} />} />
+          </Routes>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
