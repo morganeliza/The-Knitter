@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import React from "react";
-import Account from "./components";
-import Products from "./components";
+import Account from "./components/account";
+import Products from "./components/products";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import SingleProductDetails from "./components/SingleProductDetails";
@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [productsInApp, setProductsInApp] = useState([]);
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
   const [searchParam, setSearchParam] = useState("");
   const navigate = useNavigate();
 

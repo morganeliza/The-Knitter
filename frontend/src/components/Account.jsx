@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { userAccount } from "../api";
-import { getProductsByUser, handleReturn} from "../db";
+import { getPurchases, handleReturn} from "../api";
 
 export default function Account() {
   const [member, setMember] = useState(null);
@@ -20,7 +20,7 @@ export default function Account() {
     const getMemberLogin = async () => {
       const token = localStorage.getItem("token");
 
-      const response = await getProductsByUser(token);
+      const response = await getPurchases(token);
       setPurchases(response.purchase);
     };
     userInfo();
