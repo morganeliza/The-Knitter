@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import bookimage from "./books.png";
+// import bookimage from "./books.png";
 
-export default function Books({ booksFromApp }) {
-  const [books, setBooks] = useState([]);
+export default function Products({ productsFromApp }) {
+  const [products, setProducts] = useState([]);
   const [searchParam, setSearchParam] = useState("");
-  const [bookDetails, setBookDetails] = useState({});
+  const [productDetails, setProductDetails] = useState({});
   const navigate = useNavigate();
  
 
@@ -16,7 +16,7 @@ export default function Books({ booksFromApp }) {
   return (
     <>
       <div id="main-library">
-        {booksFromApp &&
+        {productsFromApp &&
           booksFromApp.map((book, id) => {
             return (
               <>
