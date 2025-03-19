@@ -2,13 +2,13 @@
 const BASE_URI = "http://localhost:3001/api"
 
 
-export async function getBooks() {
+export async function getProducts() {
     try {
-        const response = await fetch(BASE_URI + '/books');
+        const response = await fetch(BASE_URI + '/products');
         const result = await response.json();
         // const result = json.data;
-        console.log(result.books)
-        return result.books;
+        console.log(result.products)
+        return result.products;
     }
     catch (error) {
         console.log(error);
@@ -17,9 +17,9 @@ export async function getBooks() {
 }
 export async function getMoreDetails(id) {
     try {
-        const response = await fetch(BASE_URI + `/books/${id}`);
+        const response = await fetch(BASE_URI + `/products/${id}`);
         const json = await response.json();
-        const result = json.book;
+        const result = json.product;
         console.log(json)
         return result;
     } catch (error) {
@@ -45,10 +45,10 @@ export async function registerUser(user) {
     }
 }
 
-export async function handleCheckout(bookId, available, token) {
+export async function handlePurchase(productId, available, token) {
     try {
         console.log(token)
-        const response = await fetch(BASE_URI + `/books/${bookId}`, {
+        const response = await fetch(BASE_URI + `/products/${productId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -65,10 +65,10 @@ export async function handleCheckout(bookId, available, token) {
 
 }
 
-export async function handleReturn(reservationId, available, token) {
+export async function handleReturn(purchaseId, available, token) {
     try {
         console.log(token)
-        const response = await fetch(BASE_URI + `/reservations/${reservationId}`, {
+        const response = await fetch(BASE_URI + `/buys/${purchaseId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -85,14 +85,14 @@ export async function handleReturn(reservationId, available, token) {
 
 }
 
-export async function loginUser({email, password}) {
+export async function loginUser({username, password}) {
     try {
         const response = await fetch(BASE_URI + "/users/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({email, password}),
+            body: JSON.stringify({username, password}),
         });
         const json = await response.json();
         console.log(json)
@@ -121,9 +121,9 @@ export async function userAccount(token) {
 
 }
 
-export async function getReservations(token) {
+export async function getPurchases(token) {
     try {
-        const response = await fetch(BASE_URI + "/reservations", {
+        const response = await fetch(BASE_URI + "/purchases", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

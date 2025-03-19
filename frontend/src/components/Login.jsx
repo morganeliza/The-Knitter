@@ -1,5 +1,5 @@
 import { useState} from "react";
-import { getUserById } from "../db";
+import { loginUser } from "../api";
 
 export default function Login(props) {
   const [username, setUsername] = useState(null);
@@ -21,10 +21,10 @@ export default function Login(props) {
         <div>
           <form onSubmit={handleSubmit}>
             <input
-              value={email}
+              value={username}
               type="email"
               placeholder="Email"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
             />
 
             <input

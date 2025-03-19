@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
-import { requireUser } from "../api";
+import { userAccount } from "../api";
 import { getProductsByUser, handleReturn} from "../db";
 
 export default function Account() {
   const [member, setMember] = useState(null);
-  const [shoppingCarts, setShoppingCarts] = useState(null);
+  const [purchases, setPurchases] = useState(null);
 
   const userInfo = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await requireUser(token);
+      const response = await userAccount(token);
       setMember(response);
     } catch (error) {
       console.log(error);
@@ -21,17 +21,17 @@ export default function Account() {
       const token = localStorage.getItem("token");
 
       const response = await getProductsByUser(token);
-      setShoppingCarts(response.shoppingCart);
+      setPurchases(response.purchase);
     };
     userInfo();
     getMemberLogin();
   }, []);
 
-  const returnproduct = async (shoppingCartId, available) => {
+  const returnproduct = async (purchaseId, available) => {
    
     const token = localStorage.getItem("token");
     const returnProductResponse = await handleReturn(
-      shoppingCartId,
+      purchaseId,
       available,
       token
     );
@@ -43,15 +43,15 @@ export default function Account() {
 
 
 
-      {shoppingCarts &&
-        shoppingCarts.map((shoppingCart) => (
+      {purchases &&
+        purchases.map((purchase) => (
           <div className="productdetails">
-            <img className="imagedetails" src={shoppingCart.image_url} />
-            <h1>{shoppingCart.name}</h1>
+            <img className="imagedetails" src={purchase.image_url} />
+            <h1>{purchase.name}</h1>
             <button
               className="returnproduct"
               onClick={() =>
-                returnproduct(shoppingCart.id, !shoppingCart.unavailable)
+                returnproduct(purchase.id, !purchase.unavailable)
               }
             >
               Return Yarn
