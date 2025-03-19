@@ -113,7 +113,7 @@ body {
   background-color: rgba(55, 55, 44, 0.3);
 }
 
-.Book {
+.Product {
   color: rgb(193, 193, 194);
   margin: 3px;
   padding-top: 14px;
@@ -144,9 +144,9 @@ body {
   max-height: 100%;
 }
 
-#main-library {
+#main-pdp {
   display: grid;
-  grid-template-columns: auto auto auto auto auto;
+  grid-template-columns: auto auto auto;
 }
 
 .navbutton {
@@ -167,7 +167,7 @@ body {
   justify-content: center;
 }
 
-.title {
+.name {
   font-size: 2em;
   font-weight: bold;
   background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff0000);
@@ -178,7 +178,7 @@ body {
   transition: background-position 4s linear;
 }
 
-.title:hover {
+.name:hover {
   background-position: 100% 50%;
 }
 
@@ -202,7 +202,7 @@ button:hover {
   border: 3px solid #232924;
 }
 
-#checkout {
+#purchase {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -215,7 +215,7 @@ button:hover {
   margin-bottom: 100px;
 }
 
-.bookdetails {
+.productdetails {
   display: block;
   margin-left: 100px;
   margin-right: 100px;

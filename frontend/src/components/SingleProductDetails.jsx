@@ -26,10 +26,10 @@ export default function SingleProductDetails() {
                     productDetails && (<div className="productdetails">
                         <img className="imagedetails" src={productDetails.image_url} />
                         <h1>{productDetails.name}</h1>
-                        <h2 className="availability">Status Availability: {productDetails.available ? "available" : "unavailable"}</h2>
+                        <h2 className="availability">status availability: {productDetails.available ? "available" : "unavailable"}</h2>
 
                         {
-                            productDetails && (<button className="purchase" onClick={() => purchase(productDetails.id, !productDetails.available)}>Purchase
+                            productDetails && (<button className="purchase" onClick={() => purchase(productDetails.id, !productDetails.available)}>add to cart
 
                             </button>)
                         }
@@ -39,7 +39,15 @@ export default function SingleProductDetails() {
                                 navigate("/");
                             }}
                         >
-                            Back
+                            back
+                        </button>
+
+                        <button
+                            onClick={() => {
+                                navigate("/");
+                            }}
+                        >
+                            leave a review
                         </button>
 
 
