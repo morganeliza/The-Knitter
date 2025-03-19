@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { requireUser } from "../api";
-import { getProductsByUser} from "../db";
+import { getProductsByUser, handleReturn} from "../db";
 
 export default function Account() {
   const [member, setMember] = useState(null);
@@ -27,11 +27,12 @@ export default function Account() {
     getMemberLogin();
   }, []);
 
-  const returnproduct = async (shoppingCartId) => {
+  const returnproduct = async (shoppingCartId, available) => {
    
     const token = localStorage.getItem("token");
     const returnProductResponse = await handleReturn(
       shoppingCartId,
+      available,
       token
     );
   };
