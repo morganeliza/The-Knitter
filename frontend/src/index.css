@@ -135,8 +135,15 @@ body {
 
 #status {
   margin-top: auto;
-  padding: 6px;
+  padding: 14px;
+  width: 18 px;
   background-color: rgb(236, 242, 209);
+  font-size: larger;
+}
+
+#register{
+  width: 250px;
+  background-color: rgb(247, 243, 219);
 }
 
 .image {
@@ -165,6 +172,11 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: center;
+}
+
+.submit{
+  padding: 30px;
+  background-color: rgb(206, 185, 137);
 }
 
 .title {
@@ -208,6 +220,10 @@ button:hover {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+}
+
+#price {
+  color: #7feab4;
 }
 
 .masterdetail {

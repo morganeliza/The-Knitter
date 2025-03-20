@@ -136,13 +136,15 @@ async function createInitialUsers() {
 
 async function createInitialProducts() {
   try {
-    const [matilda, carley, knittycity] = await getAllUsers();
+    const users = await getAllUsers();
+    console.log(users);
 
     console.log("Starting to create products...");
     await createProduct({
       name: "Mailles a Part",
       price: 40.0,
-      image_url: "images/mailles-a-part.jpg",
+      image_url:
+        "https://uc61cdd53bc5e3a203d4f87d463b.previews.dropboxusercontent.com/p/thumb/AClJ4I1jqMfrL-UkAOMgXnDfQ92XBHhZz4HMOCuyPlKmOHLQ_r778yT7jDzkkPiOpSsafJZ0mT14RwCe5MIpTLZJ95NMOKwNspQAF15GFXexYgzFdoFMgrY1nnerOIVCTSjMQe-TH6-HUAbhMGaqm04SNQwSKl8tw7201Js9V3FOTjTij8xepYC4zQ_aB7bp24ERKEwqSNT1fZHR5UKW__oj8LalO5WtXY--72Mz9r3yrGhr8xzgAfpSNlUTiUAZbxJDRPZB6Ycg7C4tXBLJdMKNSjeiu9dNsmTgvAH2BDoyqoC_Ko3v_Ea3hmeDYVisMnj3ey28BwQMUnzdk4ygZ0YpbsLW4Ppm9FSAoyhZhgd_MN9QfpcLN7JwYpELlO82Y8l7oYa4jTBW3vpMpl4Hp1nS/p.jpeg?is_prewarmed=true",
       description:
         "Hand Dyed. 70% merino superwash, 20% yak, 10% nylon, 437 yds. Dyed in Quebec, Canada.",
       color: "Rose",
@@ -152,7 +154,8 @@ async function createInitialProducts() {
     await createProduct({
       name: "Spincycle Yarns",
       price: 37.0,
-      image_url: "images/spincycle-yarns.jpg",
+      image_url:
+        "https://ucfb580f6eeb896da86d9e24dc91.previews.dropboxusercontent.com/p/thumb/ACmP7Ey2Yc7YreYKlTJhAm8C_S988e2STYTBwxhCbnWNJiVo4v8GoDzoHqPE8KW_vYVkV9GK0voaGs6Ft5UhsH9D882TB0h6pQ24w2p8bb0sKguB3JQgyy4Y-uaFc6pTqwM51G2evwhmbS1VlVgK4K-0GN9LJX_fTMzqKL07TbxVgQylRVtd0dcE9KxdVCRCoRsp1zHSprYSSeqySsv4t2BFo0ETyw_w_WjnDY6xbb9jaKGRnJ8s5vKVXRpfjT529QPc_YrTvXDHze01gGmW0ObFPV-axhegHWVTMjYit3xi6Q27X990_WvXljiQRv-dcZKGILaw5KyZKTOGrZ71evjj1yHce6dpdSBxi1Cdx9YBcUmGV97s3BOv0GJEX8sw7-DoO1h_4fTODizN6AnrTU-qSgwPz4NzXqQq5hJxIp081_P_PD7Qfhbfxs1mLmuM-MORWN8QKhpU3xZ4PSDx15ol/p.jpeg?is_prewarmed=true",
       description: "Superwashed. 100% American wool, 150 yds. Made in the USA.",
       color: "Dream State",
       tags: ["#wool", "#american", "#superwash"],
@@ -161,7 +164,8 @@ async function createInitialProducts() {
     await createProduct({
       name: "LITLG",
       price: 39.0,
-      image_url: "images/litlg.jpg",
+      image_url:
+        "https://uc9928508688701b04dd8249986e.previews.dropboxusercontent.com/p/thumb/ACm97ZI5eAmx2CG17QDoAIQhxJVd_zMzDkzNqgKA0GMXufYdjUqET9ib7w5dK4nbrw7ld8QlzBbk6eCIRH1eDJ1PxCmTChBsCTiNw2FFAERWRmzcDNLOWAmZ28t106S03kybgSu1Cevz1ZkgrvbwE5um8i0h-sVZodo8gxysLUGQIZYzBjmKA0019JaKur9aMKwFyAbJWcE1a37R0imqh1kT5fEdfUdoYPsFt_TbwOJ71pp08buUQCGI65VNjLY-x5aJx1dmDcbG7ZhoBTMM1Ia3JN1k5Q1Yd2vsTzHJ3LnNCZUh8WplAgLxtZPCbq4kMj8f7GtqUDjkenq98LZgZx-wZvxzRjjAJ2KIzHhfZ6B6Xv2sOsB6fAycHd6Ctd55VuxpycgY_cBK9SjCqIPppn31ef3RBd6Je69Yeye67q-mjZ8h6QJajO3Y2E1_W0RceeUKkwNkNqusfhmSjvv5HOTO/p.jpeg?is_prewarmed=true",
       description:
         "20% silk, 80% sw merino, 400 yds. Fingering weight. Made in Ireland.",
       color: "Moon",
@@ -178,7 +182,7 @@ async function createInitialProducts() {
 async function createInitialReviews() {
   try {
     const users = await getAllUsers();
-    console.log(users)
+    console.log(users);
 
     console.log("Starting to create reviews...");
     await createReview({
@@ -213,25 +217,25 @@ async function createInitialReviews() {
 async function createInitialComments() {
   try {
     const users = await getAllUsers();
-    console.log(users)
+    console.log(users);
 
     console.log("Starting to create comments...");
     await createComment({
       comment_text: "I agree!",
       user_id: 1,
-      review_id: 1
+      review_id: 1,
     });
 
     await createComment({
       comment_text: "I disagree 😕",
       user_id: 2,
-      review_id: 2
+      review_id: 2,
     });
 
     await createComment({
       comment_text: "When will this yarn be restocked?",
       user_id: 3,
-      review_id: 3
+      review_id: 3,
     });
 
     console.log("Finished creating comments!");

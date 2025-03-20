@@ -2,11 +2,10 @@
 import { useNavigate } from "react-router-dom";
 
 export default function Products({ productsFromApp }) {
-//   const [products, setProducts] = useState([]);
-//   const [searchParam, setSearchParam] = useState("");
-//   const [productDetails, setProductDetails] = useState({});
+  //   const [products, setProducts] = useState([]);
+  //   const [searchParam, setSearchParam] = useState("");
+  //   const [productDetails, setProductDetails] = useState({});
   const navigate = useNavigate();
- 
 
   function getMoreDetails(id) {
     navigate(`/${id}`);
@@ -21,9 +20,13 @@ export default function Products({ productsFromApp }) {
               <>
                 <div className="Product">
                   <h1>{product.name}</h1>
-                  <h3>{product.price}</h3>
-                  <h5>{product.description}</h5>
-                  <button id="status" onClick={() => getMoreDetails(product.id)}>
+                  <h2 id="price">{product.price}</h2>
+                  <img className="image" src={product.image_url} alt={product.name}/>
+                  <h2>{product.description}</h2>
+                  <button
+                    id="status"
+                    onClick={() => getMoreDetails(product.id)}
+                  >
                     Buy
                   </button>
                 </div>

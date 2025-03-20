@@ -24,7 +24,7 @@ export default function Register({ setToken }) {
     return (
 
         <form onSubmit={handleSubmit}>
-            <input
+            <input id="register" 
                 value={firstname}
                 type="text"
                 name="firstname"
@@ -35,7 +35,7 @@ export default function Register({ setToken }) {
                 required
             />
 
-            <input
+            <input id="register" 
                 value={lastname}
                 type="text"
                 name="lastname"
@@ -46,7 +46,7 @@ export default function Register({ setToken }) {
                 required
             />
 
-            <input
+            <input id="register" 
                 value={username}
                 type="text"
                 name="username"
@@ -56,7 +56,7 @@ export default function Register({ setToken }) {
                 }
             />
 
-            <input
+            <input id="register" 
                 value={password}
                 type="text"
                 name="password"
@@ -65,6 +65,9 @@ export default function Register({ setToken }) {
                     setPassword(e.target.value)
                 }
             />
+            <br />
+            <br />
+            <br />
 
             <button className="submit" type="submit">
                 Submit
