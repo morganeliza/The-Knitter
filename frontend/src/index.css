@@ -93,6 +93,12 @@ body {
   color: #716969;
 }
 
+#color:hover{
+  cursor: pointer;
+  transition: 5ms;
+  color: salmon;
+}
+
 #main-pdp {
   display: grid;
   grid-template-columns: auto auto auto;
