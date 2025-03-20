@@ -82,7 +82,7 @@ body {
   padding: 2rem;
   flex-direction: column;
   text-align: center;
-  color: rgb(193, 193, 194);
+  color: rgb(246, 244, 238);
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-size: 20px;
   letter-spacing: 12px;
@@ -114,7 +114,7 @@ body {
 }
 
 .Product {
-  color: rgb(193, 193, 194);
+  color: rgb(194, 187, 163);
   margin: 3px;
   padding-top: 14px;
   padding-bottom: 14px;
@@ -133,22 +133,33 @@ body {
   min-width: 250px;
 }
 
-#status {
-  margin-top: auto;
-  padding: 14px;
-  width: 18 px;
-  background-color: rgb(236, 242, 209);
+#addtocart {
+  margin: 12px;
+  padding: 12px;
+  background-color: rgb(203, 192, 164);
   font-size: larger;
 }
 
-#register{
+#leavereview {
+  margin: 12px;
+  padding: 12px;
+  background-color: rgb(203, 192, 164);
+  font-size: larger;
+}
+
+#register {
   width: 250px;
+  height: 30px;
   background-color: rgb(247, 243, 219);
 }
 
 .image {
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 90%;
+  max-height: 90%;
+}
+
+#color {
+  color: #716969;
 }
 
 #main-pdp {
@@ -174,7 +185,7 @@ body {
   justify-content: center;
 }
 
-.submit{
+.submit {
   padding: 30px;
   background-color: rgb(206, 185, 137);
 }
@@ -223,7 +234,7 @@ button:hover {
 }
 
 #price {
-  color: #7feab4;
+  color: #a7c6b7;
 }
 
 .masterdetail {

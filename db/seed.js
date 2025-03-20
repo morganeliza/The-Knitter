@@ -156,8 +156,9 @@ async function createInitialProducts() {
       price: 37.0,
       image_url:
         "https://ucfb580f6eeb896da86d9e24dc91.previews.dropboxusercontent.com/p/thumb/ACmP7Ey2Yc7YreYKlTJhAm8C_S988e2STYTBwxhCbnWNJiVo4v8GoDzoHqPE8KW_vYVkV9GK0voaGs6Ft5UhsH9D882TB0h6pQ24w2p8bb0sKguB3JQgyy4Y-uaFc6pTqwM51G2evwhmbS1VlVgK4K-0GN9LJX_fTMzqKL07TbxVgQylRVtd0dcE9KxdVCRCoRsp1zHSprYSSeqySsv4t2BFo0ETyw_w_WjnDY6xbb9jaKGRnJ8s5vKVXRpfjT529QPc_YrTvXDHze01gGmW0ObFPV-axhegHWVTMjYit3xi6Q27X990_WvXljiQRv-dcZKGILaw5KyZKTOGrZ71evjj1yHce6dpdSBxi1Cdx9YBcUmGV97s3BOv0GJEX8sw7-DoO1h_4fTODizN6AnrTU-qSgwPz4NzXqQq5hJxIp081_P_PD7Qfhbfxs1mLmuM-MORWN8QKhpU3xZ4PSDx15ol/p.jpeg?is_prewarmed=true",
-      description: "Superwashed. 100% American wool, 150 yds. Made in the USA.",
-      color: "Dream State",
+      description:
+        "Dream State. Superwashed, worsted weight. 100% American wool, Hand wash cold. 150 yds. Made in the USA.",
+      color: "Close Call",
       tags: ["#wool", "#american", "#superwash"],
     });
 
@@ -167,7 +168,7 @@ async function createInitialProducts() {
       image_url:
         "https://uc9928508688701b04dd8249986e.previews.dropboxusercontent.com/p/thumb/ACm97ZI5eAmx2CG17QDoAIQhxJVd_zMzDkzNqgKA0GMXufYdjUqET9ib7w5dK4nbrw7ld8QlzBbk6eCIRH1eDJ1PxCmTChBsCTiNw2FFAERWRmzcDNLOWAmZ28t106S03kybgSu1Cevz1ZkgrvbwE5um8i0h-sVZodo8gxysLUGQIZYzBjmKA0019JaKur9aMKwFyAbJWcE1a37R0imqh1kT5fEdfUdoYPsFt_TbwOJ71pp08buUQCGI65VNjLY-x5aJx1dmDcbG7ZhoBTMM1Ia3JN1k5Q1Yd2vsTzHJ3LnNCZUh8WplAgLxtZPCbq4kMj8f7GtqUDjkenq98LZgZx-wZvxzRjjAJ2KIzHhfZ6B6Xv2sOsB6fAycHd6Ctd55VuxpycgY_cBK9SjCqIPppn31ef3RBd6Je69Yeye67q-mjZ8h6QJajO3Y2E1_W0RceeUKkwNkNqusfhmSjvv5HOTO/p.jpeg?is_prewarmed=true",
       description:
-        "20% silk, 80% sw merino, 400 yds. Fingering weight. Made in Ireland.",
+        "Life in the Longgrass. 20% silk, 80% sw merino, 400 yds. 100g. Fingering weight. Made in Ireland.",
       color: "Moon",
       tags: ["#silk", "#merino", "#irish"],
     });

@@ -19,16 +19,29 @@ export default function Products({ productsFromApp }) {
             return (
               <>
                 <div className="Product">
-                  <h1>{product.name}</h1>
-                  <h2 id="price">{product.price}</h2>
-                  <img className="image" src={product.image_url} alt={product.name}/>
+                  <h2>{product.name}</h2>
+                  <img
+                    className="image"
+                    src={product.image_url}
+                    alt={product.name}
+                  />
+                  <h3 id="price">{product.price}</h3>
+                  <h3 id="color">{product.color}</h3>
                   <h2>{product.description}</h2>
-                  <button
-                    id="status"
-                    onClick={() => getMoreDetails(product.id)}
-                  >
-                    Buy
-                  </button>
+                  <div>
+                    <button
+                      id="addtocart"
+                      onClick={() => getMoreDetails(product.id)}
+                    >
+                      add to cart
+                    </button>
+                    <button
+                      id="leavereview"
+                      onClick={() => getMoreDetails(product.id)}
+                    >
+                      leave a review
+                    </button>
+                  </div>
                 </div>
               </>
             );
