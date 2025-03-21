@@ -60,7 +60,7 @@ export default function Navigations({productsInApp}) {
                   <input
                     type="text"
                     id="search"
-                    placeholder="search product name or color"
+                    placeholder="search brand or name"
                     value={searchParam}
                     onChange={(e) => setSearchParam(e.target.value)}
                   />
