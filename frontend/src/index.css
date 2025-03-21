@@ -95,7 +95,7 @@ body {
 
 #color:hover{
   cursor: pointer;
-  transition: 5ms;
+  transition: 1ms;
   color: salmon;
 }
 
@@ -227,6 +227,10 @@ button:hover {
 
 .search-container input:hover {
   background-color: rgba(216, 141, 195, 0.876);
+  color: saddlebrown;
+  border-color: #fae17e;
+  border-width: 5px;
+  border-style: groove;
 }
 
 .search-container button {
