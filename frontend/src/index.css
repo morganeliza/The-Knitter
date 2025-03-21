@@ -3,7 +3,7 @@
 }
 
 body {
-  background-color: rgba(0, 0, 0, 0.959);
+  background-color: rgba(0, 0, 0, 0.957);
 }
 
 #root {
@@ -222,7 +222,11 @@ button:hover {
   padding: 8px;
   border: none;
   border-radius: 4px;
-  width: 200px;
+  width: 250px;
+}
+
+.search-container input:hover {
+  background-color: rgba(216, 141, 195, 0.876);
 }
 
 .search-container button {
@@ -233,10 +237,6 @@ button:hover {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-}
-
-.search-container button:hover {
-  background-color: rgba(224, 28, 168, 0.579);
 }
 
 :root {

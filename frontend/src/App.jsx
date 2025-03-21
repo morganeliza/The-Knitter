@@ -76,7 +76,7 @@ function App() {
               <input
                 type="text"
                 id="search"
-                placeholder="search product name or color"
+                placeholder="search brand, name or color"
                 value={searchParam}
                 onChange={(e) => setSearchParam(e.target.value)}
               />
