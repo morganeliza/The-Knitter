@@ -1,12 +1,13 @@
 import { useState } from "react";
+import { userAccount } from "../api";
 
-const ReviewForm = ({ productId, onReviewSubmit }) => {
+const ReviewForm = ({ product_id, onReviewSubmit }) => {
   const [rating, setRating] = useState(5);
-  const [comment, setComment] = useState("");
+  const [review, setReview] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const review = { rating, comment, productId };
+    const review = { rating, review, product_id };
 
     const response = await fetch("http://localhost:3001/api/reviews", {
       method: "POST",
@@ -15,7 +16,7 @@ const ReviewForm = ({ productId, onReviewSubmit }) => {
     });
 
     if (response.ok) {
-      setComment("");
+      setReview("");
       setRating(5);
       onReviewSubmit(); // Refresh reviews
     }
@@ -31,7 +32,7 @@ const ReviewForm = ({ productId, onReviewSubmit }) => {
       </select>
 
       <label>Review:</label>
-      <textarea value={comment} onChange={(e) => setComment(e.target.value)} required />
+      <textarea value={review} onChange={(e) => setReview(e.target.value)} required />
 
       <button type="submit">Submit Review</button>
     </form>
