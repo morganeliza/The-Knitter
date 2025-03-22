@@ -1,6 +1,7 @@
+// CommentForm.jsx
 import React, { useState } from "react";
 
-const CommentForm = ({ reviewId, onCommentSubmit }) => {
+const CommentForm = ({ reviewId, userToken, onCommentSubmit }) => {
   const [comment, setComment] = useState("");
 
   const handleSubmit = async (e) => {
@@ -9,13 +10,16 @@ const CommentForm = ({ reviewId, onCommentSubmit }) => {
     const newComment = { reviewId, comment };
     const response = await fetch("http://localhost:3001/api/comments", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userToken}`, // Authenticate with token
+      },
       body: JSON.stringify(newComment),
     });
 
     if (response.ok) {
       setComment("");
-      onCommentSubmit(); // Refresh comments after submission
+      onCommentSubmit(); // Refresh the comments after submission
     }
   };
 

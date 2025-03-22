@@ -12,7 +12,7 @@ const ReviewForm = ({ productId, userToken, onReviewSubmitted }) => {
     const reviewData = { rating, comment, productId };
 
     // POST request to submit the review (with Authorization header)
-    const response = await fetch("http://localhost:5000/api/reviews", {
+    const response = await fetch("http://localhost:3001/api/reviews", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
