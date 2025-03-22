@@ -1,30 +1,19 @@
 const express = require("express");
 const reviewsRouter = express.Router();
-reviewsRouter.use(express.json())
+reviewsRouter.use(express.json());
 
 const { requireUser } = require("./utils");
 
-const { createReview, getAllReviews, updateReview, getReviewById } = require("../db");
+const {
+  createReview,
+  getAllReviews,
+  updateReview,
+  getReviewById,
+} = require("../db");
 
 reviewsRouter.get("/", async (req, res, next) => {
   try {
     const allReviews = await getAllReviews();
-
-    // const reviews = allReviews.filter((review) => {
-    //   // the review is active, doesn't matter who it belongs to
-    //   if (review.active) {
-    //     return true;
-    //   }
-
-    //   // the review is not active, but it belogs to the current user
-    //   if (req.user && review.user_id === req.user.id) {
-    //     return true;
-    //   }
-
-    //   // none of the above are true
-    //   return false;
-    // });
-
     res.send({
       allReviews,
     });
@@ -65,9 +54,9 @@ reviewsRouter.patch("/:reviewId", requireUser, async (req, res, next) => {
 
   const updateFields = {};
 
-//   if (tags && tags.length > 0) {
-//     updateFields.tags = tags.trim().split(/\s+/);
-//   }
+  //   if (tags && tags.length > 0) {
+  //     updateFields.tags = tags.trim().split(/\s+/);
+  //   }
 
   if (review_text) {
     updateFields.review_text = review_text;
@@ -96,13 +85,14 @@ reviewsRouter.patch("/:reviewId", requireUser, async (req, res, next) => {
 
 reviewsRouter.delete("/:reviewId", requireUser, async (req, res, next) => {
   try {
-    const reviewId = req.params.reviewId; console.log(reviewId)
+    const reviewId = req.params.reviewId;
+    console.log(reviewId);
     const review = await getReviewById(reviewId);
     if (!review) {
       return res.status(404).json({ error: "Review not found" });
     }
 
-    console.log(review)
+    console.log(review);
     if (review.user_id !== req.user.id) {
       const error = Error("not authorized");
       error.status = 401;
