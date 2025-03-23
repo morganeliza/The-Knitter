@@ -5,18 +5,10 @@ const {
   getAllUsers,
   getUserById,
   createProduct,
-  updateProduct,
   getAllProducts,
   getAllTags,
-  getProductsByTagName,
   createReview,
-  getAllReviews,
-  updateReview,
-  getReviewById,
   createComment,
-  getAllComments,
-  updateComment,
-  getCommentById,
 } = require("./index");
 
 async function dropTables() {
@@ -281,19 +273,6 @@ async function testDB() {
     const products = await getAllProducts();
     console.log("Result:", products);
 
-    // console.log("Calling updateProduct on products[0]");
-    // const updateProductResult = await updateProduct(products[0].id, {
-    //   name: "New Name",
-    //   description: "Updated Description",
-    // });
-    // console.log("Result:", updateProductResult);
-
-    // console.log("Calling updateProduct on products[1], only updating tags");
-    // const updateProductTagsResult = await updateProduct(products[1].id, {
-    //   tags: ["#blue", "#cotton", "#scottish"],
-    // });
-    // console.log("Result:", updateProductTagsResult);
-
     console.log("Calling getUserById with 1");
     const matilda = await getUserById(1);
     console.log("Result:", matilda);
@@ -301,11 +280,6 @@ async function testDB() {
     console.log("Calling getAllTags");
     const allTags = await getAllTags();
     console.log("Result:", allTags);
-
-    // console.log("Calling getProductsByTagName with #irish");
-    // const productsWithIrish = await getProductsByTagName("#irish");
-    // console.log("Result:", productsWithIrish);
-
     console.log("Finished database tests!");
   } catch (error) {
     console.log("Error during testDB");

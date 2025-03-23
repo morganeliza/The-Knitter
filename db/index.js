@@ -269,9 +269,6 @@ async function createReview({ user_id, product_id, review_text, rating }) {
 }
 
 async function updateReview(reviewId, fields = {}) {
-  // read off the tags & remove that field
-  const { tags } = fields; // might be undefined
-  delete fields.tags;
 
   // build the set string
   const setString = Object.keys(fields)
@@ -379,7 +376,6 @@ async function createComment({ comment_text, user_id, review_id }) {
 }
 
 async function updateComment(commentId, fields = {}) {
-  // read off the tags & remove that field
   const { review_id } = fields; // might be undefined
 
   // build the set string
@@ -441,10 +437,10 @@ async function getCommentById(commentId) {
     console.log(comment);
 
     if (!comment) {
-      // throw {
-      //   // name: "CommentNotFoundError",
-      //   // message: "Could not find a comment with that commentId",
-      // };
+      throw {
+        // name: "CommentNotFoundError",
+        // message: "Could not find a comment with that commentId",
+      };
     }
 
     return comment;
@@ -509,9 +505,9 @@ async function deleteReview(reviewId) {
 
 async function deleteComment(commentId) {
   try {
-    // await client.query(`DELETE FROM comments WHERE "commentId" = $1;`, [
-    //   commentId,
-    // ]);
+    await client.query(`DELETE FROM comments WHERE "commentId" = $1;`, [
+      commentId,
+    ]);
     console.log("deleteComment", commentId);
     const {
       rows: [comment],
