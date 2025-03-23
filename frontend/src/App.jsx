@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import React from "react";
 import Account from "./components/account";
 import Products from "./components/products";
@@ -9,9 +9,11 @@ import SingleProductDetails from "./components/SingleProductDetails";
 import CommentForm from "./components/CommentForm";
 import ReviewForm from "./components/ReviewForm";
 import ReviewsList from "./components/ReviewsList";
+import BackgroundVideo from "./components/BackgroundVideo";
 import "./index.css";
 import { getProducts } from "./api";
 import { useNavigate } from "react-router-dom";
+
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
@@ -110,6 +112,8 @@ function App() {
             <Route path="/users/me" element={<Account setToken={setToken} />} />
             <Route path="/reviews" element={<ReviewForm token={token}/>} />
             <Route path="/comments" element={<CommentForm token={token}/>} />
+            <Route path="/reviews" element={<ReviewsList token={token}/>} />
+            <Route path="/products" element={<BackgroundVideo />} />
           </Routes>
         </div>
       </div>
