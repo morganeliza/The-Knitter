@@ -21,6 +21,13 @@ function App() {
   // const [products, setProducts] = useState([]);
   const [searchParam, setSearchParam] = useState("");
   const navigate = useNavigate();
+  const App = () => {
+    return (
+      <div>
+        <BackgroundVideo />
+      </div>
+    );
+  };
 
   useEffect(() => {
     async function getAllProducts() {
@@ -113,7 +120,6 @@ function App() {
             <Route path="/reviews" element={<ReviewForm token={token}/>} />
             <Route path="/comments" element={<CommentForm token={token}/>} />
             <Route path="/reviews" element={<ReviewsList token={token}/>} />
-            <Route path="/products" element={<BackgroundVideo />} />
           </Routes>
         </div>
       </div>
