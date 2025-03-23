@@ -19,7 +19,7 @@ const ReviewsList = () => {
   }, [id]);
 
   return (
-    <div>
+    <div className="reviews">
       <h3>Reviews:</h3>
       {reviews.length === 0 ? (
         <p>No reviews yet.</p>
