@@ -1,5 +1,7 @@
 // import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BackgroundVideo from "./BackgroundVideo";
+
 
 export default function Products({ productsFromApp }) {
   //   const [products, setProducts] = useState([]);
@@ -42,7 +44,9 @@ export default function Products({ productsFromApp }) {
                       leave a review
                     </button>
                   </div>
+                  
                 </div>
+                
               </>
             );
           })}

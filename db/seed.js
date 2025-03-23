@@ -147,7 +147,7 @@ async function createInitialProducts() {
       name: "Spincycle Yarns",
       price: 37.0,
       image_url:
-        "https://ucfb580f6eeb896da86d9e24dc91.previews.dropboxusercontent.com/p/thumb/ACmP7Ey2Yc7YreYKlTJhAm8C_S988e2STYTBwxhCbnWNJiVo4v8GoDzoHqPE8KW_vYVkV9GK0voaGs6Ft5UhsH9D882TB0h6pQ24w2p8bb0sKguB3JQgyy4Y-uaFc6pTqwM51G2evwhmbS1VlVgK4K-0GN9LJX_fTMzqKL07TbxVgQylRVtd0dcE9KxdVCRCoRsp1zHSprYSSeqySsv4t2BFo0ETyw_w_WjnDY6xbb9jaKGRnJ8s5vKVXRpfjT529QPc_YrTvXDHze01gGmW0ObFPV-axhegHWVTMjYit3xi6Q27X990_WvXljiQRv-dcZKGILaw5KyZKTOGrZ71evjj1yHce6dpdSBxi1Cdx9YBcUmGV97s3BOv0GJEX8sw7-DoO1h_4fTODizN6AnrTU-qSgwPz4NzXqQq5hJxIp081_P_PD7Qfhbfxs1mLmuM-MORWN8QKhpU3xZ4PSDx15ol/p.jpeg?is_prewarmed=true",
+        "./spincycle-yarns.jpg",
       description:
         "Dream State. Superwashed, worsted weight. 100% American wool, Hand wash cold. 150 yds. Made in the USA.",
       color: "Close Call",
@@ -277,9 +277,9 @@ async function testDB() {
     const matilda = await getUserById(1);
     console.log("Result:", matilda);
 
-    console.log("Calling getAllTags");
-    const allTags = await getAllTags();
-    console.log("Result:", allTags);
+    // console.log("Calling getAllTags");
+    // const allTags = await getAllTags();
+    // console.log("Result:", allTags);
     console.log("Finished database tests!");
   } catch (error) {
     console.log("Error during testDB");

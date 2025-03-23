@@ -14,25 +14,17 @@ import "./index.css";
 import { getProducts } from "./api";
 import { useNavigate } from "react-router-dom";
 
-
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [productsInApp, setProductsInApp] = useState([]);
   // const [products, setProducts] = useState([]);
   const [searchParam, setSearchParam] = useState("");
   const navigate = useNavigate();
-  const App = () => {
-    return (
-      <div>
-        <BackgroundVideo />
-      </div>
-    );
-  };
 
   useEffect(() => {
     async function getAllProducts() {
       const productsFromApi = await getProducts();
-      console.log(productsFromApi)
+      console.log(productsFromApi);
 
       setProductsInApp(productsFromApi.allProducts);
     }
@@ -52,6 +44,10 @@ function App() {
   );
   return (
     <>
+      <div>
+      <BackgroundVideo />
+    </div>
+
       <div className="container">
         <div className="navbar">
           <Link to={"/"}>
@@ -117,11 +113,13 @@ function App() {
             <Route path="/login" element={<Login setToken={setToken} />} />
 
             <Route path="/users/me" element={<Account setToken={setToken} />} />
-            <Route path="/reviews" element={<ReviewForm token={token}/>} />
-            <Route path="/comments" element={<CommentForm token={token}/>} />
-            <Route path="/reviews" element={<ReviewsList token={token}/>} />
+            <Route path="/reviews" element={<ReviewForm token={token} />} />
+            <Route path="/comments" element={<CommentForm token={token} />} />
+            <Route path="/reviews" element={<ReviewsList token={token} />} />
+            <Route path="/" element={<BackgroundVideo />} />
           </Routes>
         </div>
+    
       </div>
     </>
   );
