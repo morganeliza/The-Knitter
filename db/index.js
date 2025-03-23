@@ -178,29 +178,6 @@ async function updateProduct(productId, fields = {}) {
       );
     }
 
-    // return early if there's no tags to update
-    if (tags === undefined) {
-      return await getProductById(productId);
-    }
-
-    // make any new tags that need to be made
-    const tagList = await createTags(tags);
-    const tagListIdString = tagList.map((tag) => `${tag.id}`).join(", ");
-
-    // delete any product_tags from the database which aren't in that tagList
-    await client.query(
-      `
-      DELETE FROM product_tags
-      WHERE "tagId"
-      NOT IN (${tagListIdString})
-      AND "productId"=$1;
-    `,
-      [productId]
-    );
-
-    // and create post_tags as necessary
-    await addTagsToProduct(productId, tagList);
-
     return await getProductById(productId);
   } catch (error) {
     throw error;
@@ -268,27 +245,6 @@ async function getProductsByUser(userId) {
   }
 }
 
-async function getProductsByTagName(tagName) {
-  try {
-    const { rows: productIds } = await client.query(
-      `
-      SELECT products.id
-      FROM products
-      JOIN product_tags ON products.id=product_tags."productId"
-      JOIN tags ON tags.id=product_tags."tagId"
-      WHERE tags.name=$1;
-    `,
-      [tagName]
-    );
-
-    return await Promise.all(
-      productIds.map((post) => getProductById(product.id))
-    );
-  } catch (error) {
-    throw error;
-  }
-}
-
 /**
  * REVIEWS Methods
  */
@@ -306,9 +262,6 @@ async function createReview({ user_id, product_id, review_text, rating }) {
       [user_id, product_id, review_text, rating]
     );
     console.log(review);
-    // const tagList = await createTags(tags);
-    // console.log(tagList);
-    // return await addTagsToReview(review.id, tagList);
     return review;
   } catch (error) {
     throw error;
@@ -338,29 +291,6 @@ async function updateReview(reviewId, fields = {}) {
         Object.values(fields)
       );
     }
-
-    // return early if there's no tags to update
-    if (tags === undefined) {
-      return await getReviewById(reviewId);
-    }
-
-    // make any new tags that need to be made
-    const tagList = await createTags(tags);
-    const tagListIdString = tagList.map((tag) => `${tag.id}`).join(", ");
-
-    // delete any review_tags from the database which aren't in that tagList
-    await client.query(
-      `
-      DELETE FROM review_tags
-      WHERE "tagId"
-      NOT IN (${tagListIdString})
-      AND "reviewId"=$1;
-    `,
-      [reviewId]
-    );
-
-    // and create post_tags as necessary
-    await addTagsToReview(reviewId, tagList);
 
     return await getReviewById(reviewId);
   } catch (error) {
@@ -429,25 +359,6 @@ async function getReviewsByUser(userId) {
   }
 }
 
-async function getReviewsByTagName(tagName) {
-  try {
-    const { rows: reviewIds } = await client.query(
-      `
-      SELECT reviews.id
-      FROM reviews
-      JOIN review_tags ON reviews.id=review_tags."reviewId"
-      JOIN tags ON tags.id=review_tags."tagId"
-      WHERE tags.name=$1;
-    `,
-      [tagName]
-    );
-
-    return await Promise.all(reviewIds.map((post) => getReviewById(review.id)));
-  } catch (error) {
-    throw error;
-  }
-}
-
 async function createComment({ comment_text, user_id, review_id }) {
   try {
     const {
@@ -461,9 +372,6 @@ async function createComment({ comment_text, user_id, review_id }) {
       [comment_text, user_id, review_id]
     );
     console.log(comment);
-    // const tagList = await createTags(tags);
-    // console.log(tagList);
-    // return await addTagsToComment(comment.id, tagList);
     return comment;
   } catch (error) {
     throw error;
@@ -563,171 +471,6 @@ async function getCommentsByUser(userId) {
   }
 }
 
-async function getCommentsByTagName(tagName) {
-  try {
-    const { rows: commentIds } = await client.query(
-      `
-      SELECT comments.id
-      FROM comments
-      JOIN comment_tags ON comments.id=comment_tags."commentId"
-      JOIN tags ON tags.id=comment_tags."tagId"
-      WHERE tags.name=$1;
-    `,
-      [tagName]
-    );
-
-    return await Promise.all(
-      commentIds.map((post) => getCommentById(comment.id))
-    );
-  } catch (error) {
-    throw error;
-  }
-}
-
-/**
- * TAG Methods
- */
-
-async function createTags(tagList) {
-  if (tagList.length === 0) {
-    return;
-  }
-
-  const valuesStringInsert = tagList
-    .map((_, index) => `$${index + 1}`)
-    .join("), (");
-
-  const valuesStringSelect = tagList
-    .map((_, index) => `$${index + 1}`)
-    .join(", ");
-
-  try {
-    // insert all, ignoring duplicates
-    await client.query(
-      `
-      INSERT INTO tags(name)
-      VALUES (${valuesStringInsert})
-      ON CONFLICT (name) DO NOTHING;
-    `,
-      tagList
-    );
-
-    // grab all and return
-    const { rows } = await client.query(
-      `
-      SELECT * FROM tags
-      WHERE name
-      IN (${valuesStringSelect});
-    `,
-      tagList
-    );
-
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function createProductTag(productId, tagId) {
-  try {
-    await client.query(
-      `
-      INSERT INTO product_tags("productId", "tagId")
-      VALUES ($1, $2)
-      ON CONFLICT ("productId", "tagId") DO NOTHING;
-    `,
-      [productId, tagId]
-    );
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function addTagsToProduct(productId, tagList) {
-  try {
-    const createProductTagPromises = tagList.map((tag) =>
-      createProductTag(productId, tag.id)
-    );
-
-    await Promise.all(createProductTagPromises);
-
-    return await getProductById(productId);
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function createReviewTag(reviewId, tagId) {
-  try {
-    await client.query(
-      `
-      INSERT INTO review_tags("reviewId", "tagId")
-      VALUES ($1, $2)
-      ON CONFLICT ("reviewId", "tagId") DO NOTHING;
-    `,
-      [reviewId, tagId]
-    );
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function addTagsToReview(reviewId, tagList) {
-  try {
-    const createReviewTagPromises = tagList.map((tag) =>
-      createReviewTag(reviewId, tag.id)
-    );
-
-    await Promise.all(createReviewTagPromises);
-
-    return await getReviewById(reviewId);
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function createCommentTag(commentId, tagId) {
-  try {
-    await client.query(
-      `
-      INSERT INTO comment_tags("commentId", "tagId")
-      VALUES ($1, $2)
-      ON CONFLICT ("commentId", "tagId") DO NOTHING;
-    `,
-      [commentId, tagId]
-    );
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function addTagsToComment(commentId, tagList) {
-  try {
-    const createCommentTagPromises = tagList.map((tag) =>
-      createCommentTag(commentId, tag.id)
-    );
-
-    await Promise.all(createCommentTagPromises);
-
-    return await getCommentById(commentId);
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function getAllTags() {
-  try {
-    const { rows } = await client.query(`
-      SELECT * 
-      FROM tags;
-    `);
-
-    return { rows };
-  } catch (error) {
-    throw error;
-  }
-}
-
 async function deleteProduct(productId) {
   try {
     await client.query(`DELETE FROM product_tags WHERE "productId" = $1;`, [
@@ -794,20 +537,12 @@ module.exports = {
   updateProduct,
   getAllProducts,
   getProductsByUser,
-  getProductsByTagName,
-  createTags,
-  getAllTags,
-  createProductTag,
-  addTagsToProduct,
   deleteProduct,
   getReviewById,
   createReview,
   updateReview,
   getAllReviews,
   getReviewsByUser,
-  getReviewsByTagName,
-  createReviewTag,
-  addTagsToReview,
   deleteReview,
   deleteComment,
   createComment,
@@ -815,7 +550,4 @@ module.exports = {
   getAllComments,
   getCommentsByUser,
   getCommentById,
-  getCommentsByTagName,
-  createCommentTag,
-  addTagsToComment,
 };
