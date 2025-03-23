@@ -31,7 +31,7 @@ const ReviewForm = ({ productId, userToken, onReviewSubmitted }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="leavereview" onSubmit={handleSubmit}>
       <h3>Leave a Review</h3>
 
       <label>Rating:</label>
@@ -43,7 +43,7 @@ const ReviewForm = ({ productId, userToken, onReviewSubmitted }) => {
         ))}
       </select>
 
-      <label>Comment:</label>
+      <label className="leavereview">Comment:</label>
       <textarea
         value={comment}
         onChange={(e) => setComment(e.target.value)}
