@@ -28,6 +28,7 @@ const ReviewsList = () => {
           <div key={index}>
             <strong>{review.rating} Stars</strong>
             <p>{review.review_text}</p>
+            <br />
             <button onClick={() => setShowComment(!showComment)}>Leave Comment</button>
 
             {showComment && (

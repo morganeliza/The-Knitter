@@ -24,8 +24,8 @@ const CommentForm = ({ reviewId, userToken, onCommentSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <textarea
+    <form className="reviews" onSubmit={handleSubmit}>
+      <textarea className="leavecomment"
         value={comment}
         onChange={(e) => setComment(e.target.value)}
         placeholder="Leave a comment..."

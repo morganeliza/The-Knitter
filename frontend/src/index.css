@@ -60,7 +60,7 @@ body {
   left: 50%; /* Center the video horizontally */
   width: 100%; /* Full width */
   height: 100%; /* Full height */
-  object-fit: cover; 
+  object-fit: cover;
   transform: translate(-50%, -50%); /* Centers video exactly at the middle */
   opacity: 0.3;
 }
@@ -236,15 +236,31 @@ button:hover {
 .reviews {
   display: flex;
   flex-direction: column;
+  align-items: center;
   font-size: small;
   letter-spacing: normal;
   background-color: rgba(55, 55, 44, 0.3);
+}
+.reviewtext {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: small;
+  letter-spacing: normal;
+  background-color: rgba(55, 55, 44, 0.3);
+}
+.leavecomment {
+  width: 450px;
 }
 
 .leavereview {
   display: flex;
   flex-direction: column;
-  max-width: 600px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  padding-left: 14px;
+  padding-right: 14px;
+  max-width: 1200px;
   font-size: small;
   letter-spacing: normal;
   background-color: rgba(55, 55, 44, 0.3);

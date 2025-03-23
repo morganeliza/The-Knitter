@@ -49,6 +49,7 @@ const ReviewForm = ({ productId, userToken, onReviewSubmitted }) => {
         onChange={(e) => setComment(e.target.value)}
         required
       ></textarea>
+      <br />
 
       <button type="submit">Submit Review</button>
     </form>
