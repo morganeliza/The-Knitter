@@ -2,15 +2,19 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getMoreDetails } from "../api";
 import { handlePurchase } from "../api";
+import ReviewForm from "./ReviewForm";
+import ReviewsList from "./ReviewsList";
 
 export default function SingleProductDetails() {
     const { id } = useParams();
     const [productDetails, setProductDetails] = useState({});
+    const [showReviewForm, setShowReviewForm] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        async function getSingleProduct(id) {
-            setProductDetails(await getMoreDetails(id));
+        async function getSingleProduct() {
+            const response = await getMoreDetails(id);
+            setProductDetails(response.allProducts)
         }
         getSingleProduct(id);
     }, []);
@@ -18,9 +22,15 @@ export default function SingleProductDetails() {
     const purchase = async (productId, available) => {
         const token = localStorage.getItem("token")
         const purchaseResponse = await handlePurchase(productId, available, token)
+        console.log(purchaseResponse)
     }
+    console.log(productDetails)
     return (
         <>
+        <ReviewsList />
+          {showReviewForm && ( 
+                    <ReviewForm />
+            )}
             <div className="masterdetail">
                 {
                     productDetails && (<div className="productdetails">
@@ -44,7 +54,7 @@ export default function SingleProductDetails() {
 
                         <button
                             onClick={() => {
-                                navigate("/");
+                                setShowReviewForm(!showReviewForm);
                             }}
                         >
                             leave a review
@@ -53,7 +63,10 @@ export default function SingleProductDetails() {
 
                     </div>)
                 }
+
+          
             </div>
+            
 
 
         </>

@@ -15,12 +15,12 @@ export default function Products({ productsFromApp }) {
     <>
       <div id="main-pdp">
         {productsFromApp &&
-          productsFromApp.map((product, id) => {
+          productsFromApp.map((product) => {
             return (
               <>
                 <div className="Product">
                   <h2>{product.name}</h2>
-                  <img
+                  <img onClick={()=> getMoreDetails(product.id)}
                     className="image"
                     src={product.image_url}
                     alt={product.name}

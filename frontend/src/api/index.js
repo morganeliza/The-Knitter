@@ -19,9 +19,9 @@ export async function getMoreDetails(id) {
     try {
         const response = await fetch(BASE_URI + `/products/${id}`);
         const json = await response.json();
-        const result = json.product;
-        console.log(json)
-        return result;
+        // const result = json.product;
+        // console.log(json)
+        return json;
     } catch (error) {
         console.log(error);
     }

@@ -17,6 +17,19 @@ productsRouter.get("/", async (req, res, next) => {
   }
 });
 
+productsRouter.get("/:id", async (req, res, next) => {
+  const{id}=req.params
+  try {
+    const allProducts = await getProductById(id);
+
+    res.send({
+      allProducts,
+    });
+  } catch ({ name, message }) {
+    next({ name, message });
+  }
+});
+
 productsRouter.post("/", requireUser, async (req, res, next) => {
   const { name, price, image_url, description, color = ""} = req.body;
   console.log(req.user);

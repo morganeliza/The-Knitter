@@ -6,6 +6,9 @@ import Products from "./components/products";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import SingleProductDetails from "./components/SingleProductDetails";
+import CommentForm from "./components/CommentForm";
+import ReviewForm from "./components/ReviewForm";
+import ReviewsList from "./components/ReviewsList";
 import "./index.css";
 import { getProducts } from "./api";
 import { useNavigate } from "react-router-dom";
@@ -105,6 +108,8 @@ function App() {
             <Route path="/login" element={<Login setToken={setToken} />} />
 
             <Route path="/users/me" element={<Account setToken={setToken} />} />
+            <Route path="/reviews" element={<ReviewForm token={token}/>} />
+            <Route path="/comments" element={<CommentForm token={token}/>} />
           </Routes>
         </div>
       </div>

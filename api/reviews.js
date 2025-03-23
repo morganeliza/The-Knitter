@@ -22,6 +22,16 @@ reviewsRouter.get("/", async (req, res, next) => {
   }
 });
 
+reviewsRouter.get('/:id', async (req, res, next) => {
+  const { id } = req.params;
+  try{
+    const singleProdReviews = await getReviewById(id);
+    res.status(200).json(singleProdReviews);
+  }catch(err){
+    console.log(err);
+  }
+})
+
 reviewsRouter.post("/", requireUser, async (req, res, next) => {
   const { review_text, rating } = req.body;
   console.log(req.user);
