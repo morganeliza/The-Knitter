@@ -96,6 +96,37 @@ body {
   min-width: 250px;
 }
 
+/* QuantityButton.css */
+.quantity-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quantity-btn {
+  background-color: #007BFF;  /* Bootstrap-like blue button */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.quantity-btn:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+.quantity-input {
+  width: 50px;
+  text-align: center;
+  font-size: 16px;
+  padding: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
 #addtocart {
   margin: 12px;
   padding: 12px;
