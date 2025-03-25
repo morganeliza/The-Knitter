@@ -181,13 +181,13 @@ body {
 }
 
 .navbutton {
-  color: rgba(224, 28, 168, 0.579);
+  color: rgba(224, 28, 168, 0.711);
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   background: none;
   border: none;
   padding: 0;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 13px;
   transition: 1s;
 }
 
@@ -215,13 +215,13 @@ body {
   letter-spacing: 18px;
 }
 .shipping {
-  font-size: 1em;
+  font-size: 16px;
   font-weight: bold;
   letter-spacing: 3px;
   color: #dccff2;
   font-style: italic;
   text-transform: uppercase;
-  background: linear-gradient(45deg, #bfbc8c, #77d277, #5b66b9, #e89797);
+  background: linear-gradient(45deg, #9c9872, #589c58, #49518e, #b57878);
   background-size: 77%;
   background-position: 19% 89%;
   -webkit-background-clip: text;

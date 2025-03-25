@@ -45,14 +45,19 @@ function App() {
   return (
     <>
       <div>
-      <BackgroundVideo />
-    </div>
+        <BackgroundVideo />
+      </div>
 
       <div className="container">
         <div className="navbar">
           <Link to={"/"}>
             <button className="navbutton">
               <h2>Home</h2>
+            </button>
+          </Link>
+          <Link to={"/"}>
+            <button className="navbutton">
+              <h2>Accessories and Notions</h2>
             </button>
           </Link>
           <Link to={"/register"}>
@@ -63,7 +68,7 @@ function App() {
           {token ? (
             <Link to={"/users/me"}>
               <button className="navbutton">
-                <h2>My Account</h2>
+                <h2>My Stash</h2>
               </button>
             </Link>
           ) : (
@@ -120,7 +125,6 @@ function App() {
             <Route path="/" element={<BackgroundVideo />} />
           </Routes>
         </div>
-    
       </div>
     </>
   );
