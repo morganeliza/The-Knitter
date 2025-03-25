@@ -35,6 +35,12 @@ body {
   transform: scale(1.1);
   filter: drop-shadow(1px 0px 0 black) drop-shadow(-1px 0px 0 black);
 }
+.cart:hover{
+  color: saddlebrown;
+  border-color: #fae17e;
+  border-width: 3px;
+  border-style: dotted;
+}
 .container-search {
   display: flex;
   justify-content: center;
