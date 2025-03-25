@@ -28,6 +28,13 @@ body {
   align-items: center;
   z-index: 1;
 }
+.cart{
+  max-width: 70px;
+  display: flex;
+  flex-direction: row;
+  transform: scale(1.1);
+  filter: drop-shadow(1px 0px 0 black) drop-shadow(-1px 0px 0 black);
+}
 .container-search {
   display: flex;
   justify-content: center;

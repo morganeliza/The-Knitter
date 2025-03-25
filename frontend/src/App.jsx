@@ -83,6 +83,13 @@ function App() {
               <h2>Logout</h2>
             </button>
           </Link>
+          <div>
+            <img
+              className="cart"
+              src="./shopping-cart.png"
+              alt="shopping cart"
+            />
+          </div>
 
           <div className="container">
             <div className="search-container">
