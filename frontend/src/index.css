@@ -96,15 +96,16 @@ body {
   min-width: 250px;
 }
 
-/* QuantityButton.css */
 .quantity-container {
   display: flex;
+  justify-content: center;
   align-items: center;
+  padding: 15px;
   gap: 8px;
 }
 
 .quantity-btn {
-  background-color: #007BFF;  /* Bootstrap-like blue button */
+  background-color:  rgba(224, 28, 168, 0.579); 
   color: white;
   border: none;
   padding: 8px 12px;
@@ -115,7 +116,7 @@ body {
 }
 
 .quantity-btn:hover {
-  background-color: #0056b3; /* Darker shade on hover */
+  background-color:  rgba(88, 9, 66, 0.886); /* Darker shade on hover */
 }
 
 .quantity-input {
