@@ -27,7 +27,7 @@ export default function Products({ productsFromApp }) {
                     src={product.image_url}
                     alt={product.name}
                   />
-                  <h3 id="price">{product.price}</h3>
+                  <h3 id="price">${product.price}</h3>
                   <h3 id="color">{product.color}</h3>
                   <h2>{product.description}</h2>
                   <div>
