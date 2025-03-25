@@ -94,6 +94,7 @@ function App() {
 
         <Link to={"/"}>
           <h1 className="title">The Knitter</h1>
+          <h4 className="shipping">We ship internationally!</h4>
         </Link>
 
         <div>

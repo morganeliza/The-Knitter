@@ -105,7 +105,7 @@ body {
 }
 
 .quantity-btn {
-  background-color:  rgba(224, 28, 168, 0.579); 
+  background-color: rgba(224, 28, 168, 0.579);
   color: white;
   border: none;
   padding: 8px 12px;
@@ -116,7 +116,7 @@ body {
 }
 
 .quantity-btn:hover {
-  background-color:  rgba(88, 9, 66, 0.886); /* Darker shade on hover */
+  background-color: rgba(88, 9, 66, 0.886); /* Darker shade on hover */
 }
 
 .quantity-input {
@@ -208,6 +208,20 @@ body {
   -webkit-text-fill-color: transparent;
   transition: background-position 4s linear;
   letter-spacing: 18px;
+}
+.shipping {
+  font-size: 1em;
+  font-weight: bold;
+  letter-spacing: 3px;
+  color: #dccff2;
+  font-family: Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  background: linear-gradient(45deg, #bfbc8c, #77d277, #5b66b9, #e89797);
+  background-size: 77%;
+  background-position: 19% 89%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background-position 4s linear;
 }
 
 .title:hover {
