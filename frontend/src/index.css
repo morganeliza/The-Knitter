@@ -51,7 +51,7 @@ body {
   margin-top: 100px;
   margin-bottom: 100px;
   place-items: center;
-  max-width: 500px;
+  max-width: 300px;
   border: 3px solid #232924;
   font-size: large;
   padding: 30px;
@@ -205,7 +205,7 @@ body {
 }
 
 .navbar {
-  gap: 50px;
+  gap: 40px;
   display: flex;
   flex-direction: row;
   justify-content: center;
