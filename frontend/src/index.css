@@ -118,7 +118,7 @@ body {
 }
 
 .quantity-btn {
-  background-color: rgba(224, 28, 168, 0.579);
+  background-color: rgb(103, 202, 79);
   color: white;
   border: none;
   padding: 8px 12px;
@@ -129,7 +129,7 @@ body {
 }
 
 .quantity-btn:hover {
-  background-color: rgba(88, 9, 66, 0.886); /* Darker shade on hover */
+  background-color: rgba(21, 48, 15, 0.918); /* Darker shade on hover */
 }
 
 .quantity-input {
