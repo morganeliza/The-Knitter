@@ -21,7 +21,7 @@ export default function Products({ productsFromApp }) {
             return (
               <>
                 <div className="Product">
-                  <h2>{product.name}</h2>
+                  <h2 id="name">{product.name}</h2>
                   <img onClick={()=> getMoreDetails(product.id)}
                     className="image"
                     src={product.image_url}

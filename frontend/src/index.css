@@ -169,6 +169,11 @@ body {
   transition: 1ms;
   color: salmon;
 }
+#name:hover {
+  cursor: pointer;
+  transition: 1ms;
+  color: salmon;
+}
 
 #main-pdp {
   display: grid;
