@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import React from "react";
-import Account from "./components/account";
-import Products from "./components/products";
+import Account from "./components/Account";
+import Products from "./components/Products";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import SingleProductDetails from "./components/SingleProductDetails";
