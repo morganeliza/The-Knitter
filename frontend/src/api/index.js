@@ -1,5 +1,5 @@
 
-const BASE_URI = "http://localhost:3001/api"
+const BASE_URI = "https://the-knitter.onrender.com/api"
 
 
 export async function getProducts() {
