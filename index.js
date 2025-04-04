@@ -3,7 +3,7 @@ require('dotenv').config();
 const { PORT = 3001 } = process.env;
 const express = require('express');
 const server = express();
-
+const path = require("path");
 const bodyParser = require('body-parser');
 server.use(bodyParser.json());
 
@@ -21,13 +21,16 @@ server.use((req, res, next) => {
 
   next();
 });
-
+server.use(express.static(path.join(__dirname,"frontend","dist")))
 const apiRouter = require('./api');
 server.use('/api', apiRouter);
 
 const { client } = require('./db');
 client.connect();
 
+server.get("*",(req, res)=>{
+  res.sendFile(path.join(__dirname,"frontend","dist","index.html"))
+})
 server.listen(PORT, () => {
   console.log("The server is up on port", PORT);
 });

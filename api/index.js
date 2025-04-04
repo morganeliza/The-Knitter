@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const { getUserById } = require('../db');
 const { JWT_SECRET } = process.env;
 apiRouter.use(cors())
-app.get('/', (req, res)=> res.sendFile(path.join(__dirname, './frontend/dist/index.html')));
+
 // app.use('/assets', express.static(path.join(__dirname, './frontend/dist/assets'))); 
 
 // set `req.user` if possible
