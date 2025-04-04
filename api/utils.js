@@ -1,5 +1,8 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
+const apiRouter = require(".");
+const path = require("path")
+
 
 function requireUser(req, res, next) {
   try {
@@ -12,7 +15,7 @@ function requireUser(req, res, next) {
 
     const payload = jwt.verify(token, "gucci");
     req.user = payload;
-    next ()
+    next();
   } catch (error) {
     res.status(401).json({ error: "Unauthorized: Invalid or expired token" });
   }

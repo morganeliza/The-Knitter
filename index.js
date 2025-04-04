@@ -12,7 +12,7 @@ server.use(morgan('dev'));
 //for deployment only
 // const path = require('path');
 // app.get('/', (req, res)=> res.sendFile(path.join(__dirname, '../client/dist/index.html')));
-// app.use('/assets', express.static(path.join(__dirname, '../client/dist/assets'))); 
+// app.use('/assets', express.(path.join(__dirname, '../client/dist/assets'))); 
 
 server.use((req, res, next) => {
   console.log("<____Body Logger START____>");

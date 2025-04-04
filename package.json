@@ -7,7 +7,7 @@
     "seed": "node ./db/seed.js",
     "start": "npm run seed && node index.js",
     "start:dev": "nodemon index.js",
-    "build": "react-scripts build"
+    "build": "npm install && cd frontend && npm install && npm run build"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +22,7 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
-    "pg": "^8.0.3"
+    "pg": "^8.0.3",
+    "react-scripts": "^5.0.1"
   }
 }
