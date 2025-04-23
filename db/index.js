@@ -3,11 +3,12 @@ const { Client } = require("pg"); // imports the pg module
 const client = new Client({
   connectionString:
     process.env.DATABASE_URL ||
-    "postgres://morganmaccarthy:postgres@localhost:5432/the_knitter_db",
+    // "postgres://morganmaccarthy:postgres@localhost:5432/the_knitter_db",
+    "postgresql://the_knitter_db_user:uiEpUreqDtOGXyMwbgdIfGlUUyLRwm7W@dpg-cvhjmt1c1ekc738cao70-a.oregon-postgres.render.com/the_knitter_db",
   ssl:
-    process.env.NODE_ENV === "production"
-      ? { rejectUnauthorized: false }
-      : undefined,
+   
+      { rejectUnauthorized: true}
+    
 });
 
 /**

@@ -136,7 +136,7 @@ async function createInitialProducts() {
       name: "Mailles a Part",
       price: 40.0,
       image_url:
-        "https://uc61cdd53bc5e3a203d4f87d463b.previews.dropboxusercontent.com/p/thumb/AClJ4I1jqMfrL-UkAOMgXnDfQ92XBHhZz4HMOCuyPlKmOHLQ_r778yT7jDzkkPiOpSsafJZ0mT14RwCe5MIpTLZJ95NMOKwNspQAF15GFXexYgzFdoFMgrY1nnerOIVCTSjMQe-TH6-HUAbhMGaqm04SNQwSKl8tw7201Js9V3FOTjTij8xepYC4zQ_aB7bp24ERKEwqSNT1fZHR5UKW__oj8LalO5WtXY--72Mz9r3yrGhr8xzgAfpSNlUTiUAZbxJDRPZB6Ycg7C4tXBLJdMKNSjeiu9dNsmTgvAH2BDoyqoC_Ko3v_Ea3hmeDYVisMnj3ey28BwQMUnzdk4ygZ0YpbsLW4Ppm9FSAoyhZhgd_MN9QfpcLN7JwYpELlO82Y8l7oYa4jTBW3vpMpl4Hp1nS/p.jpeg?is_prewarmed=true",
+       "./mailles-a-part.jpg",
       description:
         "Hand Dyed. 70% merino superwash, 20% yak, 10% nylon, 437 yds. Dyed in Quebec, Canada.",
       color: "Rose",
@@ -158,7 +158,7 @@ async function createInitialProducts() {
       name: "LITLG",
       price: 39.0,
       image_url:
-        "https://uc9928508688701b04dd8249986e.previews.dropboxusercontent.com/p/thumb/ACm97ZI5eAmx2CG17QDoAIQhxJVd_zMzDkzNqgKA0GMXufYdjUqET9ib7w5dK4nbrw7ld8QlzBbk6eCIRH1eDJ1PxCmTChBsCTiNw2FFAERWRmzcDNLOWAmZ28t106S03kybgSu1Cevz1ZkgrvbwE5um8i0h-sVZodo8gxysLUGQIZYzBjmKA0019JaKur9aMKwFyAbJWcE1a37R0imqh1kT5fEdfUdoYPsFt_TbwOJ71pp08buUQCGI65VNjLY-x5aJx1dmDcbG7ZhoBTMM1Ia3JN1k5Q1Yd2vsTzHJ3LnNCZUh8WplAgLxtZPCbq4kMj8f7GtqUDjkenq98LZgZx-wZvxzRjjAJ2KIzHhfZ6B6Xv2sOsB6fAycHd6Ctd55VuxpycgY_cBK9SjCqIPppn31ef3RBd6Je69Yeye67q-mjZ8h6QJajO3Y2E1_W0RceeUKkwNkNqusfhmSjvv5HOTO/p.jpeg?is_prewarmed=true",
+       "./litlg.jpg",
       description:
         "Life in the Longgrass. 20% silk, 80% sw merino, 400 yds. 100g. Fingering weight. Made in Ireland.",
       color: "Moon",
